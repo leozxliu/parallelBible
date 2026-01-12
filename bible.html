@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bible Parallel Viewer</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --accent: #38bdf8;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --border: #1f2937;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      background: radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.1), transparent 35%),
+                  radial-gradient(circle at 80% 10%, rgba(14, 165, 233, 0.08), transparent 30%),
+                  var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+    }
+    aside {
+      width: 320px;
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      letter-spacing: 0.5px;
+    }
+    .section-title {
+      margin: 14px 0 6px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .book {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .book-header {
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .book-header:hover { background: rgba(56, 189, 248, 0.08); }
+    .book-title { font-weight: 600; }
+    .chapter-list {
+      display: none;
+      padding: 10px 12px 12px;
+      border-top: 1px solid var(--border);
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .chapter-list.open { display: flex; }
+    .chapter {
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.02);
+      transition: all 0.15s ease;
+      font-size: 13px;
+    }
+    .chapter:hover { color: var(--text); border-color: var(--accent); }
+    main {
+      flex: 1;
+      padding: 22px;
+      overflow-y: auto;
+    }
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .meta h2 { margin: 0; font-size: 18px; }
+    .meta .subtitle { color: var(--muted); font-size: 14px; }
+    .grid {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .header-row {
+      display: grid;
+      grid-template-columns: 50px 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+    .header-row h3 {
+      margin: 0;
+      font-size: 16px;
+      color: var(--accent);
+      padding: 10px;
+    }
+    .header-row .v-num-header {
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+      padding: 10px 0;
+    }
+    .verse-row {
+      display: grid;
+      grid-template-columns: 50px 1fr 1fr;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      align-items: start;
+    }
+    .verse-row:last-child { border-bottom: none; }
+    .v-num {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      font-weight: 600;
+      padding-top: 2px;
+    }
+    .v-text {
+      line-height: 1.65;
+      padding: 0 12px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .col {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+    .col h3 { margin: 0 0 10px; font-size: 16px; color: var(--accent); }
+    .empty { color: var(--muted); text-align: center; padding: 30px 0; }
+    
+    footer {
+      margin-top: 40px;
+      padding: 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+      line-height: 1.6;
+    }
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    
+    .chinese-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 24px;
+      background: var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .toggle-switch.active {
+      background: var(--accent);
+    }
+    .toggle-slider {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.3s;
+    }
+    .toggle-switch.active .toggle-slider {
+      transform: translateX(26px);
+    }
+    
+    .bookmark-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 15px;
+      background: var(--panel);
+      color: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-left: 15px;
+      transition: all 0.2s;
+    }
+    .bookmark-btn:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+    .bookmark-btn.bookmarked {
+      background: var(--accent);
+      color: var(--bg);
+    }
+    .bookmarks-section {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .bookmark-item {
+      padding: 10px;
+      margin: 5px 0;
+      background: var(--panel);
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .bookmark-item:hover {
+      background: rgba(56, 189, 248, 0.1);
+    }
+    .bookmark-info {
+      flex: 1;
+    }
+    .bookmark-title {
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .bookmark-date {
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .bookmark-delete {
+      padding: 5px 10px;
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background 0.2s;
+    }
+    .bookmark-delete:hover {
+      background: rgba(239, 68, 68, 0.3);
+    }
+    
+    .chapter-nav {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: none;
+      gap: 10px;
+      z-index: 100;
+    }
+    .chapter-nav.active {
+      display: flex;
+    }
+    .nav-btn {
+      padding: 12px 20px;
+      background: var(--panel);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--accent);
+      color: var(--bg);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    }
+    .nav-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    
+    .chapter-image {
+      width: 100%;
+      max-width: 100%;
+      margin: 0 0 30px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: var(--panel);
+    }
+    .chapter-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      max-height: 400px;
+      object-fit: cover;
+    }
+    .chapter-image .image-caption {
+      padding: 12px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9em;
+      background: rgba(0, 0, 0, 0.2);
+    }
+    
+    @media (max-width: 900px) {
+      body { flex-direction: column; }
+      aside {
+        position: relative;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      main { padding: 16px; }
+      .grid { grid-template-columns: 1fr; }
+      .meta { gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+  <aside>
+    <h1>Parallel Bible</h1>
+    <div class="bookmarks-section">
+      <div class="section-title">Bookmarks</div>
+      <div id="bookmarks-list"></div>
+    </div>
+    <div class="section-title">Old Testament</div>
+    <div id="old-testament"></div>
+    <div class="section-title">New Testament</div>
+    <div id="new-testament"></div>
+  </aside>
+  <main>
+    <div id="chapter-image-container" class="chapter-image" style="display: none;">
+      <img id="chapter-image" src="" alt="Chapter illustration">
+      <div class="image-caption" id="image-caption">Loading image...</div>
+    </div>
+    <div class="meta">
+      <div style="display: flex; align-items: center;">
+        <h2 id="heading">Select a chapter</h2>
+        <button class="bookmark-btn" id="bookmark-btn" onclick="toggleBookmark()" style="display: none;">
+          <span id="bookmark-icon">☆</span>
+          <span id="bookmark-text">Bookmark</span>
+        </button>
+      </div>
+      <div class="subtitle" id="subheading"></div>
+    </div>
+    <div class="grid">
+      <div class="header-row">
+        <div class="v-num-header">Verse</div>
+        <div>
+          <h3 id="cuv-title">Chinese Union Version (和合本简体)</h3>
+          <div class="chinese-toggle">
+            <span>繁体</span>
+            <div class="toggle-switch active" id="chinese-toggle" onclick="toggleChinese()">
+              <div class="toggle-slider"></div>
+            </div>
+            <span>简体</span>
+          </div>
+        </div>
+        <h3>New International Version (NIV)</h3>
+      </div>
+      <div id="verses-container"></div>
+    </div>
+    <footer>
+      <p>&copy; 2026 Parallel Bible Viewer - Leo Liu, PhD. All rights reserved.</p>
+      <p>Bible translations: Chinese Union Version (CUV) 和合本 (简体/繁体) and New International Version (NIV)</p>
+      <p>Scripture taken from <a href="https://bolls.life" target="_blank">Bolls.life API</a></p>
+      <p>For educational and personal study purposes only.</p>
+    </footer>
+  </main>
+
+  <div class="chapter-nav" id="chapter-nav">
+    <button class="nav-btn" id="prev-btn" onclick="navigatePrevChapter()">
+      <span>←</span>
+      <span>Previous</span>
+    </button>
+    <button class="nav-btn" id="next-btn" onclick="navigateNextChapter()">
+      <span>Next</span>
+      <span>→</span>
+    </button>
+  </div>
+
+  <script>
+    // Using bolls.life API (free, no authentication required)
+    // CUV (Chinese Union Version) and NIV (New International Version)
+    
+    // State for Chinese character preference
+    let useSimplifiedChinese = true;
+    let currentBook = null;
+    let currentChapter = null;
+    
+    // Bookmark management
+    let bookmarks = JSON.parse(localStorage.getItem('bibleBookmarks') || '[]');
+    
+    function saveBookmarks() {
+      localStorage.setItem('bibleBookmarks', JSON.stringify(bookmarks));
+      renderBookmarks();
+    }
+    
+    function toggleBookmark() {
+      if (!currentBook || !currentChapter) return;
+      
+      const bookmarkKey = `${currentBook.name}-${currentChapter}`;
+      const existingIndex = bookmarks.findIndex(b => b.key === bookmarkKey);
+      
+      if (existingIndex >= 0) {
+        // Remove bookmark
+        bookmarks.splice(existingIndex, 1);
+      } else {
+        // Add bookmark
+        bookmarks.push({
+          key: bookmarkKey,
+          bookName: currentBook.name,
+          chineseName: currentBook.cname,
+          chapter: currentChapter,
+          date: new Date().toISOString(),
+          bookNum: currentBook.bookNum
+        });
+      }
+      
+      saveBookmarks();
+      updateBookmarkButton();
+    }
+    
+    function deleteBookmark(bookmarkKey) {
+      bookmarks = bookmarks.filter(b => b.key !== bookmarkKey);
+      saveBookmarks();
+      if (currentBook && currentChapter) {
+        updateBookmarkButton();
+      }
+    }
+    
+    function renderBookmarks() {
+      const bookmarksList = document.getElementById('bookmarks-list');
+      if (bookmarks.length === 0) {
+        bookmarksList.innerHTML = '<div style="color: var(--muted); font-size: 12px; padding: 10px;">No bookmarks yet</div>';
+        return;
+      }
+      
+      bookmarksList.innerHTML = bookmarks.map(bookmark => {
+        const date = new Date(bookmark.date);
+        const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        return `
+          <div class="bookmark-item">
+            <div class="bookmark-info" onclick="loadBookmark('${bookmark.key}')">
+              <div class="bookmark-title">${bookmark.chineseName} ${bookmark.bookName} ${bookmark.chapter}</div>
+              <div class="bookmark-date">${dateStr}</div>
+            </div>
+            <button class="bookmark-delete" onclick="event.stopPropagation(); deleteBookmark('${bookmark.key}')">Delete</button>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    function loadBookmark(bookmarkKey) {
+      const bookmark = bookmarks.find(b => b.key === bookmarkKey);
+      if (!bookmark) return;
+      
+      const book = bibleData.books.find(b => b.name === bookmark.bookName);
+      if (book) {
+        loadChapter(book, bookmark.chapter);
+      }
+    }
+    
+    function updateBookmarkButton() {
+      const bookmarkBtn = document.getElementById('bookmark-btn');
+      const bookmarkIcon = document.getElementById('bookmark-icon');
+      const bookmarkText = document.getElementById('bookmark-text');
+      
+      if (!currentBook || !currentChapter) {
+        bookmarkBtn.style.display = 'none';
+        return;
+      }
+      
+      bookmarkBtn.style.display = 'inline-flex';
+      const bookmarkKey = `${currentBook.name}-${currentChapter}`;
+      const isBookmarked = bookmarks.some(b => b.key === bookmarkKey);
+      
+      if (isBookmarked) {
+        bookmarkBtn.classList.add('bookmarked');
+        bookmarkIcon.textContent = '★';
+        bookmarkText.textContent = 'Bookmarked';
+      } else {
+        bookmarkBtn.classList.remove('bookmarked');
+        bookmarkIcon.textContent = '☆';
+        bookmarkText.textContent = 'Bookmark';
+      }
+    }
+    
+    // Chapter navigation functions
+    function updateNavigationButtons() {
+      const navContainer = document.getElementById('chapter-nav');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      
+      if (!currentBook || !currentChapter) {
+        navContainer.classList.remove('active');
+        return;
+      }
+      
+      navContainer.classList.add('active');
+      
+      // Check if there's a previous chapter
+      const hasPrev = currentChapter > 1 || bibleData.books.findIndex(b => b.name === currentBook.name) > 0;
+      prevBtn.disabled = !hasPrev;
+      
+      // Check if there's a next chapter
+      const currentBookIndex = bibleData.books.findIndex(b => b.name === currentBook.name);
+      const hasNext = currentChapter < currentBook.chapters || currentBookIndex < bibleData.books.length - 1;
+      nextBtn.disabled = !hasNext;
+    }
+    
+    function navigatePrevChapter() {
+      if (!currentBook || !currentChapter) return;
+      
+      if (currentChapter > 1) {
+        // Previous chapter in same book
+        loadChapter(currentBook, currentChapter - 1);
+      } else {
+        // Last chapter of previous book
+        const currentBookIndex = bibleData.books.findIndex(b => b.name === currentBook.name);
+        if (currentBookIndex > 0) {
+          const prevBook = bibleData.books[currentBookIndex - 1];
+          loadChapter(prevBook, prevBook.chapters);
+        }
+      }
+    }
+    
+    function navigateNextChapter() {
+      if (!currentBook || !currentChapter) return;
+      
+      if (currentChapter < currentBook.chapters) {
+        // Next chapter in same book
+        loadChapter(currentBook, currentChapter + 1);
+      } else {
+        // First chapter of next book
+        const currentBookIndex = bibleData.books.findIndex(b => b.name === currentBook.name);
+        if (currentBookIndex < bibleData.books.length - 1) {
+          const nextBook = bibleData.books[currentBookIndex + 1];
+          loadChapter(nextBook, 1);
+        }
+      }
+    }
+    
+    // Toggle between traditional and simplified Chinese
+    function toggleChinese() {
+      useSimplifiedChinese = !useSimplifiedChinese;
+      const toggle = document.getElementById('chinese-toggle');
+      const title = document.getElementById('cuv-title');
+      
+      if (useSimplifiedChinese) {
+        toggle.classList.add('active');
+        title.textContent = 'Chinese Union Version (和合本简体)';
+      } else {
+        toggle.classList.remove('active');
+        title.textContent = 'Chinese Union Version (和合本繁体)';
+      }
+      
+      // Reload current chapter if one is loaded
+      if (currentBook && currentChapter) {
+        loadChapter(currentBook, currentChapter);
+      }
+    }
+    
+    // Chapter titles for notable chapters
+    const chapterTitles = {
+      "Genesis-1": {en: "The Creation", zh: "创造天地"},
+      "Genesis-2": {en: "Adam and Eve", zh: "亚当与夏娃"},
+      "Genesis-3": {en: "The Fall", zh: "人类的堕落"},
+      "Genesis-6": {en: "Noah and the Flood", zh: "挪亚与洪水"},
+      "Genesis-22": {en: "Abraham's Test", zh: "亚伯拉罕的考验"},
+      "Exodus-3": {en: "The Burning Bush", zh: "燃烧的荆棘"},
+      "Exodus-12": {en: "The Passover", zh: "逾越节"},
+      "Exodus-14": {en: "Crossing the Red Sea", zh: "过红海"},
+      "Exodus-20": {en: "The Ten Commandments", zh: "十诫"},
+      "Leviticus-19": {en: "Love Your Neighbor", zh: "爱人如己"},
+      "Deuteronomy-6": {en: "The Shema", zh: "示玛篇"},
+      "Joshua-1": {en: "Be Strong and Courageous", zh: "刚强壮胆"},
+      "Joshua-6": {en: "The Fall of Jericho", zh: "耶利哥城陷落"},
+      "Ruth-1": {en: "Ruth's Loyalty", zh: "路得的忠诚"},
+      "1 Samuel-17": {en: "David and Goliath", zh: "大卫与歌利亚"},
+      "2 Samuel-7": {en: "God's Covenant with David", zh: "神与大卫立约"},
+      "1 Kings-3": {en: "Solomon's Wisdom", zh: "所罗门的智慧"},
+      "Esther-4": {en: "For Such a Time as This", zh: "为现今的机会"},
+      "Job-1": {en: "Job's First Test", zh: "约伯的试炼"},
+      "Job-38": {en: "The Lord Answers Job", zh: "耶和华回答约伯"},
+      "Psalm-1": {en: "The Way of the Righteous", zh: "义人的道路"},
+      "Psalm-23": {en: "The Lord is My Shepherd", zh: "耶和华是我的牧者"},
+      "Psalm-51": {en: "A Prayer for Forgiveness", zh: "认罪悔改的祷告"},
+      "Psalm-91": {en: "Under His Wings", zh: "在祂翅膀荫下"},
+      "Psalm-119": {en: "The Word of God", zh: "神的话语"},
+      "Proverbs-3": {en: "Trust in the Lord", zh: "信靠耶和华"},
+      "Proverbs-31": {en: "The Virtuous Woman", zh: "才德的妇人"},
+      "Ecclesiastes-3": {en: "A Time for Everything", zh: "万事都有定期"},
+      "Song of Solomon-2": {en: "Love's Delight", zh: "爱的喜悦"},
+      "Isaiah-9": {en: "A Child is Born", zh: "有一婴孩为我们而生"},
+      "Isaiah-53": {en: "The Suffering Servant", zh: "受苦的仆人"},
+      "Jeremiah-29": {en: "Plans to Prosper You", zh: "赐平安的意念"},
+      "Ezekiel-37": {en: "The Valley of Dry Bones", zh: "枯骨复活"},
+      "Daniel-3": {en: "The Fiery Furnace", zh: "火窑中的拯救"},
+      "Daniel-6": {en: "Daniel in the Lions' Den", zh: "但以理在狮子坑中"},
+      "Jonah-2": {en: "Jonah's Prayer", zh: "约拿的祷告"},
+      "Matthew-5": {en: "The Sermon on the Mount", zh: "登山宝训"},
+      "Matthew-6": {en: "The Lord's Prayer", zh: "主祷文"},
+      "Matthew-28": {en: "The Great Commission", zh: "大使命"},
+      "Mark-16": {en: "The Resurrection", zh: "耶稣复活"},
+      "Luke-1": {en: "The Birth Foretold", zh: "预言耶稣降生"},
+      "Luke-2": {en: "The Birth of Jesus", zh: "耶稣降生"},
+      "Luke-15": {en: "The Prodigal Son", zh: "浪子回头"},
+      "John-1": {en: "The Word Became Flesh", zh: "道成肉身"},
+      "John-3": {en: "You Must Be Born Again", zh: "重生之道"},
+      "John-11": {en: "Lazarus Raised from the Dead", zh: "拉撒路复活"},
+      "John-14": {en: "I Am the Way", zh: "我是道路"},
+      "John-15": {en: "The Vine and the Branches", zh: "葡萄树与枝子"},
+      "Acts-1": {en: "The Ascension", zh: "耶稣升天"},
+      "Acts-2": {en: "Pentecost", zh: "五旬节圣灵降临"},
+      "Acts-9": {en: "Saul's Conversion", zh: "扫罗悔改"},
+      "Romans-3": {en: "Justified by Faith", zh: "因信称义"},
+      "Romans-5": {en: "Peace with God", zh: "与神和好"},
+      "Romans-8": {en: "More Than Conquerors", zh: "得胜有余"},
+      "Romans-12": {en: "Living Sacrifices", zh: "献上活祭"},
+      "1 Corinthians-13": {en: "Love Never Fails", zh: "爱是永不止息"},
+      "1 Corinthians-15": {en: "The Resurrection Chapter", zh: "复活的真理"},
+      "2 Corinthians-5": {en: "New Creation", zh: "新造的人"},
+      "Galatians-5": {en: "Fruit of the Spirit", zh: "圣灵的果子"},
+      "Ephesians-2": {en: "Saved by Grace", zh: "因恩典得救"},
+      "Ephesians-6": {en: "The Armor of God", zh: "神的全副军装"},
+      "Philippians-2": {en: "The Mind of Christ", zh: "基督的心"},
+      "Philippians-4": {en: "Rejoice in the Lord", zh: "靠主喜乐"},
+      "Colossians-3": {en: "Set Your Minds on Things Above", zh: "思念天上的事"},
+      "1 Thessalonians-4": {en: "The Lord's Coming", zh: "主的再来"},
+      "1 Timothy-6": {en: "Fight the Good Fight", zh: "打那美好的仗"},
+      "2 Timothy-3": {en: "All Scripture is God-Breathed", zh: "圣经是神所默示的"},
+      "Hebrews-11": {en: "The Hall of Faith", zh: "信心的见证人"},
+      "Hebrews-12": {en: "The Race Set Before Us", zh: "奔那摆在前头的路程"},
+      "James-1": {en: "Trials and Temptations", zh: "试炼与试探"},
+      "James-2": {en: "Faith Without Works is Dead", zh: "信心与行为"},
+      "1 Peter-2": {en: "Living Stones", zh: "活石"},
+      "1 John-4": {en: "God is Love", zh: "神就是爱"},
+      "Revelation-1": {en: "John's Vision", zh: "约翰的异象"},
+      "Revelation-21": {en: "The New Heaven and New Earth", zh: "新天新地"},
+      "Revelation-22": {en: "Come, Lord Jesus", zh: "主耶稣啊，我愿你来"}
+    };
+    
+    function getChapterTitle(bookName, chapterNum) {
+      const key = `${bookName}-${chapterNum}`;
+      return chapterTitles[key] || null;
+    }
+    
+    // Bible books structure with bolls.life book IDs (1-66)
+    const bibleData = {
+      books: [
+        // Old Testament
+        { name: "Genesis", cname: "创世记", id: "genesis", bookNum: 1, testament: "old", chapters: 50 },
+        { name: "Exodus", cname: "出埃及记", id: "exodus", bookNum: 2, testament: "old", chapters: 40 },
+        { name: "Leviticus", cname: "利未记", id: "leviticus", bookNum: 3, testament: "old", chapters: 27 },
+        { name: "Numbers", cname: "民数记", id: "numbers", bookNum: 4, testament: "old", chapters: 36 },
+        { name: "Deuteronomy", cname: "申命记", id: "deuteronomy", bookNum: 5, testament: "old", chapters: 34 },
+        { name: "Joshua", cname: "约书亚记", id: "joshua", bookNum: 6, testament: "old", chapters: 24 },
+        { name: "Judges", cname: "士师记", id: "judges", bookNum: 7, testament: "old", chapters: 21 },
+        { name: "Ruth", cname: "路得记", id: "ruth", bookNum: 8, testament: "old", chapters: 4 },
+        { name: "1 Samuel", cname: "撒母耳记上", id: "1samuel", bookNum: 9, testament: "old", chapters: 31 },
+        { name: "2 Samuel", cname: "撒母耳记下", id: "2samuel", bookNum: 10, testament: "old", chapters: 24 },
+        { name: "1 Kings", cname: "列王纪上", id: "1kings", bookNum: 11, testament: "old", chapters: 22 },
+        { name: "2 Kings", cname: "列王纪下", id: "2kings", bookNum: 12, testament: "old", chapters: 25 },
+        { name: "1 Chronicles", cname: "历代志上", id: "1chronicles", bookNum: 13, testament: "old", chapters: 29 },
+        { name: "2 Chronicles", cname: "历代志下", id: "2chronicles", bookNum: 14, testament: "old", chapters: 36 },
+        { name: "Ezra", cname: "以斯拉记", id: "ezra", bookNum: 15, testament: "old", chapters: 10 },
+        { name: "Nehemiah", cname: "尼希米记", id: "nehemiah", bookNum: 16, testament: "old", chapters: 13 },
+        { name: "Esther", cname: "以斯帖记", id: "esther", bookNum: 17, testament: "old", chapters: 10 },
+        { name: "Job", cname: "约伯记", id: "job", bookNum: 18, testament: "old", chapters: 42 },
+        { name: "Psalms", cname: "诗篇", id: "psalms", bookNum: 19, testament: "old", chapters: 150 },
+        { name: "Proverbs", cname: "箴言", id: "proverbs", bookNum: 20, testament: "old", chapters: 31 },
+        { name: "Ecclesiastes", cname: "传道书", id: "ecclesiastes", bookNum: 21, testament: "old", chapters: 12 },
+        { name: "Song of Solomon", cname: "雅歌", id: "songofsolomon", bookNum: 22, testament: "old", chapters: 8 },
+        { name: "Isaiah", cname: "以赛亚书", id: "isaiah", bookNum: 23, testament: "old", chapters: 66 },
+        { name: "Jeremiah", cname: "耶利米书", id: "jeremiah", bookNum: 24, testament: "old", chapters: 52 },
+        { name: "Lamentations", cname: "耶利米哀歌", id: "lamentations", bookNum: 25, testament: "old", chapters: 5 },
+        { name: "Ezekiel", cname: "以西结书", id: "ezekiel", bookNum: 26, testament: "old", chapters: 48 },
+        { name: "Daniel", cname: "但以理书", id: "daniel", bookNum: 27, testament: "old", chapters: 12 },
+        { name: "Hosea", cname: "何西阿书", id: "hosea", bookNum: 28, testament: "old", chapters: 14 },
+        { name: "Joel", cname: "约珥书", id: "joel", bookNum: 29, testament: "old", chapters: 3 },
+        { name: "Amos", cname: "阿摩司书", id: "amos", bookNum: 30, testament: "old", chapters: 9 },
+        { name: "Obadiah", cname: "俄巴底亚书", id: "obadiah", bookNum: 31, testament: "old", chapters: 1 },
+        { name: "Jonah", cname: "约拿书", id: "jonah", bookNum: 32, testament: "old", chapters: 4 },
+        { name: "Micah", cname: "弥迦书", id: "micah", bookNum: 33, testament: "old", chapters: 7 },
+        { name: "Nahum", cname: "那鸿书", id: "nahum", bookNum: 34, testament: "old", chapters: 3 },
+        { name: "Habakkuk", cname: "哈巴谷书", id: "habakkuk", bookNum: 35, testament: "old", chapters: 3 },
+        { name: "Zephaniah", cname: "西番雅书", id: "zephaniah", bookNum: 36, testament: "old", chapters: 3 },
+        { name: "Haggai", cname: "哈该书", id: "haggai", bookNum: 37, testament: "old", chapters: 2 },
+        { name: "Zechariah", cname: "撒迦利亚书", id: "zechariah", bookNum: 38, testament: "old", chapters: 14 },
+        { name: "Malachi", cname: "玛拉基书", id: "malachi", bookNum: 39, testament: "old", chapters: 4 },
+        // New Testament
+        { name: "Matthew", cname: "马太福音", id: "matthew", bookNum: 40, testament: "new", chapters: 28 },
+        { name: "Mark", cname: "马可福音", id: "mark", bookNum: 41, testament: "new", chapters: 16 },
+        { name: "Luke", cname: "路加福音", id: "luke", bookNum: 42, testament: "new", chapters: 24 },
+        { name: "John", cname: "约翰福音", id: "john", bookNum: 43, testament: "new", chapters: 21 },
+        { name: "Acts", cname: "使徒行传", id: "acts", bookNum: 44, testament: "new", chapters: 28 },
+        { name: "Romans", cname: "罗马书", id: "romans", bookNum: 45, testament: "new", chapters: 16 },
+        { name: "1 Corinthians", cname: "哥林多前书", id: "1corinthians", bookNum: 46, testament: "new", chapters: 16 },
+        { name: "2 Corinthians", cname: "哥林多后书", id: "2corinthians", bookNum: 47, testament: "new", chapters: 13 },
+        { name: "Galatians", cname: "加拉太书", id: "galatians", bookNum: 48, testament: "new", chapters: 6 },
+        { name: "Ephesians", cname: "以弗所书", id: "ephesians", bookNum: 49, testament: "new", chapters: 6 },
+        { name: "Philippians", cname: "腓立比书", id: "philippians", bookNum: 50, testament: "new", chapters: 4 },
+        { name: "Colossians", cname: "歌罗西书", id: "colossians", bookNum: 51, testament: "new", chapters: 4 },
+        { name: "1 Thessalonians", cname: "帖撒罗尼迦前书", id: "1thessalonians", bookNum: 52, testament: "new", chapters: 5 },
+        { name: "2 Thessalonians", cname: "帖撒罗尼迦后书", id: "2thessalonians", bookNum: 53, testament: "new", chapters: 3 },
+        { name: "1 Timothy", cname: "提摩太前书", id: "1timothy", bookNum: 54, testament: "new", chapters: 6 },
+        { name: "2 Timothy", cname: "提摩太后书", id: "2timothy", bookNum: 55, testament: "new", chapters: 4 },
+        { name: "Titus", cname: "提多书", id: "titus", bookNum: 56, testament: "new", chapters: 3 },
+        { name: "Philemon", cname: "腓利门书", id: "philemon", bookNum: 57, testament: "new", chapters: 1 },
+        { name: "Hebrews", cname: "希伯来书", id: "hebrews", bookNum: 58, testament: "new", chapters: 13 },
+        { name: "James", cname: "雅各书", id: "james", bookNum: 59, testament: "new", chapters: 5 },
+        { name: "1 Peter", cname: "彼得前书", id: "1peter", bookNum: 60, testament: "new", chapters: 5 },
+        { name: "2 Peter", cname: "彼得后书", id: "2peter", bookNum: 61, testament: "new", chapters: 3 },
+        { name: "1 John", cname: "约翰一书", id: "1john", bookNum: 62, testament: "new", chapters: 5 },
+        { name: "2 John", cname: "约翰二书", id: "2john", bookNum: 63, testament: "new", chapters: 1 },
+        { name: "3 John", cname: "约翰三书", id: "3john", bookNum: 64, testament: "new", chapters: 1 },
+        { name: "Jude", cname: "犹大书", id: "jude", bookNum: 65, testament: "new", chapters: 1 },
+        { name: "Revelation", cname: "启示录", id: "revelation", bookNum: 66, testament: "new", chapters: 22 }
+      ]
+    };
+
+    const oldContainer = document.getElementById("old-testament");
+    const newContainer = document.getElementById("new-testament");
+    const heading = document.getElementById("heading");
+    const subheading = document.getElementById("subheading");
+    const versesContainer = document.getElementById("verses-container");
+    const imageContainer = document.getElementById("chapter-image-container");
+    const chapterImage = document.getElementById("chapter-image");
+    const imageCaption = document.getElementById("image-caption");
+
+    // Fetch chapter from bolls.life API (free, no authentication required)
+    async function fetchChapter(translation, bookNum, chapter) {
+      try {
+        const url = `https://bolls.life/get-text/${translation}/${bookNum}/${chapter}/`;
+        console.log('Fetching:', url);
+        
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+          throw new Error(`API request failed: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('API response:', data);
+        
+        const verses = {};
+        
+        // Parse verses from bolls.life API response
+        // Response is an array of verse objects: [{pk, verse, text}, ...]
+        if (Array.isArray(data)) {
+          data.forEach(verseObj => {
+            let text = verseObj.text.trim();
+            // Convert traditional to simplified for CUV if enabled
+            if (translation === 'CUV' && useSimplifiedChinese) {
+              text = toSimplified(text);
+            }
+            verses[verseObj.verse] = text;
+          });
+        }
+        
+        console.log('Parsed verses:', verses);
+        return verses;
+      } catch (error) {
+        console.error('Failed to fetch chapter:', error);
+        return {};
+      }
+    }
+
+    // Convert traditional Chinese characters to simplified
+    function toSimplified(text) {
+      const map={'創':'创','萬':'万','與':'与','為':'为','來':'来','無':'无','開':'开','門':'门','長':'长','見':'见','時':'时','書':'书','車':'车','學':'学','國':'国','會':'会','聽':'听','說':'说','讀':'读','寫':'写','語':'语','難':'难','雜':'杂','權':'权','條':'条','樂':'乐','買':'买','賣':'卖','頭':'头','實':'实','從':'从','眾':'众','復':'复','動':'动','務':'务','勝':'胜','勞':'劳','將':'将','專':'专','區':'区','協':'协','單':'单','發':'发','變':'变','團':'团','園':'园','圍':'围','圖':'图','聖':'圣','聲':'声','處':'处','備':'备','彌':'弥','經':'经','繼':'继','續':'续','總':'总','義':'义','號':'号','蓋':'盖','舊':'旧','並':'并','亞':'亚','佔':'占','應':'应','懷':'怀','態':'态','慶':'庆','憶':'忆','憐':'怜','憂':'忧','戰':'战','據':'据','擔':'担','擇':'择','擊':'击','攜':'携','敗':'败','數':'数','斷':'断','於':'于','極':'极','樣':'样','歐':'欧','歸':'归','殘':'残','殺':'杀','氣':'气','漢':'汉','濟':'济','營':'营','獨':'独','現':'现','環':'环','產':'产','異':'异','當':'当','療':'疗','盡':'尽','監':'监','真':'真','碼':'码','禮':'礼','離':'离','種':'种','穩':'稳','窮':'穷','節':'节','範':'范','築':'筑','類':'类','終':'终','紀':'纪','紅':'红','約':'约','級':'级','組':'组','絕':'绝','給':'给','統':'统','網':'网','聯':'联','聞':'闻','聰':'聪','肅':'肃','臟':'脏','臨':'临','華':'华','葉':'叶','著':'着','藝':'艺','虛':'虚','術':'术','衛':'卫','複':'复','視':'视','覺':'觉','觀':'观','規':'规','親':'亲','記':'记','訓':'训','設':'设','訪':'访','證':'证','評':'评','試':'试','詩':'诗','話':'话','該':'该','詳':'详','認':'认','誠':'诚','誤':'误','請':'请','諸':'诸','謀':'谋','讓':'让','讚':'赞','豐':'丰','財':'财','貨':'货','貧':'贫','貴':'贵','賓':'宾','賜':'赐','質':'质','賴':'赖','贊':'赞','趕':'赶','軍':'军','輕':'轻','較':'较','載':'载','輔':'辅','輝':'辉','輸':'输','轉':'转','辦':'办','農':'农','連':'连','進':'进','運':'运','過':'过','達':'达','違':'违','遠':'远','適':'适','選':'选','遺':'遗','還':'还','邊':'边','鄉':'乡','醫':'医','釋':'释','裏':'里','裡':'里','鐵':'铁','錄':'录','錢':'钱','錯':'错','鍊':'炼','鎮':'镇','關':'关','陰':'阴','陽':'阳','隊':'队','階':'阶','際':'际','雙':'双','雞':'鸡','電':'电','響':'响','頁':'页','頂':'顶','項':'项','順':'顺','領':'领','題':'题','顧':'顾','顯':'显','風':'风','飛':'飞','餘':'余','館':'馆','餓':'饿','養':'养','驗':'验','體':'体','髮':'发','鬥':'斗','鳥':'鸟','麗':'丽','黨':'党','點':'点','齊':'齐','龍':'龙','龜':'龟'};
+      return text.split('').map(c=>map[c]||c).join('');
+    }
+
+    function createBook(book) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "book";
+
+      const header = document.createElement("div");
+      header.className = "book-header";
+      header.innerHTML = `<span class="book-title">${book.cname} ${book.name}</span><span class="toggle">+</span>`;
+
+      const list = document.createElement("div");
+      list.className = "chapter-list";
+
+      for (let i = 1; i <= book.chapters; i++) {
+        const btn = document.createElement("div");
+        btn.className = "chapter";
+        btn.textContent = i;
+        btn.addEventListener("click", e => {
+          e.stopPropagation();
+          loadChapter(book, i);
+        });
+        list.appendChild(btn);
+      }
+
+      header.addEventListener("click", () => {
+        const open = list.classList.toggle("open");
+        header.querySelector(".toggle").textContent = open ? "−" : "+";
+      });
+
+      wrapper.appendChild(header);
+      wrapper.appendChild(list);
+      return wrapper;
+    }
+
+    function buildSidebar() {
+      bibleData.books.forEach(book => {
+        const el = createBook(book);
+        if (book.testament === "old") oldContainer.appendChild(el);
+        else newContainer.appendChild(el);
+      });
+    }
+
+    async function loadChapter(book, chapterNum) {
+      currentBook = book;
+      currentChapter = chapterNum;
+      heading.textContent = `${book.name} ${chapterNum}`;
+      updateBookmarkButton();
+      updateNavigationButtons();
+      
+      // Scroll to top of the page
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Display chapter title if available
+      const chapterTitle = getChapterTitle(book.name, chapterNum);
+      if (chapterTitle) {
+        subheading.textContent = `${chapterTitle.en} / ${chapterTitle.zh}`;
+      } else {
+        subheading.textContent = "Loading...";
+      }
+      
+      versesContainer.innerHTML = '<div class="empty" style="grid-column: 1 / -1;">Loading...</div>';
+      
+      // Load chapter image
+      loadChapterImage(book.name, chapterNum);
+
+      try {
+        const [cuvVerses, nivVerses] = await Promise.all([
+          fetchChapter('CUV', book.bookNum, chapterNum),
+          fetchChapter('NIV', book.bookNum, chapterNum)
+        ]);
+
+        // Keep chapter title if it exists, otherwise show translation info
+        if (!chapterTitle) {
+          subheading.textContent = "和合本 / NIV";
+        }
+        versesContainer.innerHTML = "";
+
+        const allVerseNumbers = new Set([
+          ...Object.keys(cuvVerses),
+          ...Object.keys(nivVerses)
+        ]);
+
+        const sortedVerses = Array.from(allVerseNumbers).sort((a, b) => {
+          const numA = parseInt(a) || 0;
+          const numB = parseInt(b) || 0;
+          return numA - numB;
+        });
+
+        sortedVerses.forEach(v => {
+          const row = document.createElement("div");
+          row.className = "verse-row";
+          row.innerHTML = `
+            <div class="v-num">${chapterNum}:${v}</div>
+            <div class="v-text">${cuvVerses[v] || ""}</div>
+            <div class="v-text">${nivVerses[v] || ""}</div>
+          `;
+          versesContainer.appendChild(row);
+        });
+
+        if (sortedVerses.length === 0) {
+          versesContainer.innerHTML = '<div class="empty" style="grid-column: 1 / -1;">Chapter not found</div>';
+        }
+      } catch (error) {
+        subheading.textContent = "Error loading chapter";
+        versesContainer.innerHTML = '<div class="empty" style="grid-column: 1 / -1;">Failed to load</div>';
+      }
+    }
+
+    // Load representative image for the chapter
+    async function loadChapterImage(bookName, chapterNum) {
+      // Show container immediately
+      imageContainer.style.display = 'block';
+      imageCaption.textContent = `${bookName} Chapter ${chapterNum}`;
+      
+      // Use Pexels API (free) for more relevant biblical imagery
+      const chapterImages = {
+        // Genesis
+        'Genesis-1': 'https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Genesis-2': 'https://images.pexels.com/photos/1179229/pexels-photo-1179229.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Genesis-3': 'https://images.pexels.com/photos/208518/pexels-photo-208518.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Genesis-6': 'https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Genesis-7': 'https://images.pexels.com/photos/1034650/pexels-photo-1034650.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Genesis-11': 'https://images.pexels.com/photos/2034892/pexels-photo-2034892.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Genesis-22': 'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        // Exodus
+        'Exodus-2': 'https://images.pexels.com/photos/1557652/pexels-photo-1557652.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Exodus-3': 'https://images.pexels.com/photos/266487/pexels-photo-266487.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Exodus-7': 'https://images.pexels.com/photos/3075993/pexels-photo-3075993.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Exodus-14': 'https://images.pexels.com/photos/1619654/pexels-photo-1619654.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Exodus-20': 'https://images.pexels.com/photos/1261427/pexels-photo-1261427.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        // Psalms
+        'Psalms-1': 'https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Psalms-23': 'https://images.pexels.com/photos/422218/pexels-photo-422218.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Psalms-91': 'https://images.pexels.com/photos/1266810/pexels-photo-1266810.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Psalms-100': 'https://images.pexels.com/photos/208326/pexels-photo-208326.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        // Proverbs
+        'Proverbs-3': 'https://images.pexels.com/photos/256417/pexels-photo-256417.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Proverbs-31': 'https://images.pexels.com/photos/4065876/pexels-photo-4065876.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        // Matthew
+        'Matthew-1': 'https://images.pexels.com/photos/1701324/pexels-photo-1701324.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Matthew-2': 'https://images.pexels.com/photos/956981/milky-way-starry-sky-night-sky-star-956981.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Matthew-5': 'https://images.pexels.com/photos/1557958/pexels-photo-1557958.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Matthew-6': 'https://images.pexels.com/photos/256559/pexels-photo-256559.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Matthew-14': 'https://images.pexels.com/photos/1001682/pexels-photo-1001682.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Matthew-26': 'https://images.pexels.com/photos/65175/pexels-photo-65175.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Matthew-27': 'https://images.pexels.com/photos/208421/pexels-photo-208421.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Matthew-28': 'https://images.pexels.com/photos/326012/pexels-photo-326012.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        // Mark
+        'Mark-1': 'https://images.pexels.com/photos/35577/africa-animal-fur-cat.jpg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Mark-16': 'https://images.pexels.com/photos/127905/pexels-photo-127905.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        // Luke
+        'Luke-1': 'https://images.pexels.com/photos/236111/pexels-photo-236111.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Luke-2': 'https://images.pexels.com/photos/372882/pexels-photo-372882.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Luke-15': 'https://images.pexels.com/photos/1615776/pexels-photo-1615776.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Luke-24': 'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        // John
+        'John-1': 'https://images.pexels.com/photos/1089455/pexels-photo-1089455.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'John-3': 'https://images.pexels.com/photos/933054/pexels-photo-933054.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'John-8': 'https://images.pexels.com/photos/1567069/pexels-photo-1567069.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'John-11': 'https://images.pexels.com/photos/3075993/pexels-photo-3075993.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'John-13': 'https://images.pexels.com/photos/374703/pexels-photo-374703.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'John-14': 'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'John-19': 'https://images.pexels.com/photos/236111/pexels-photo-236111.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'John-20': 'https://images.pexels.com/photos/531756/pexels-photo-531756.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'John-21': 'https://images.pexels.com/photos/237018/pexels-photo-237018.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        // Acts
+        'Acts-1': 'https://images.pexels.com/photos/3791466/pexels-photo-3791466.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Acts-2': 'https://images.pexels.com/photos/266487/pexels-photo-266487.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Acts-9': 'https://images.pexels.com/photos/1578750/pexels-photo-1578750.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Acts-16': 'https://images.pexels.com/photos/277593/pexels-photo-277593.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        // Romans
+        'Romans-8': 'https://images.pexels.com/photos/206359/pexels-photo-206359.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Romans-12': 'https://images.pexels.com/photos/1405528/pexels-photo-1405528.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        // 1 Corinthians
+        '1 Corinthians-13': 'https://images.pexels.com/photos/66997/pexels-photo-66997.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        // Ephesians
+        'Ephesians-6': 'https://images.pexels.com/photos/163431/fencing-fighting-world-war-armor-163431.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        // Revelation
+        'Revelation-1': 'https://images.pexels.com/photos/220072/pexels-photo-220072.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Revelation-4': 'https://images.pexels.com/photos/1166990/pexels-photo-1166990.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Revelation-12': 'https://images.pexels.com/photos/326012/pexels-photo-326012.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Revelation-21': 'https://images.pexels.com/photos/208745/pexels-photo-208745.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+        'Revelation-22': 'https://images.pexels.com/photos/1557958/pexels-photo-1557958.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop',
+      };
+      
+      const key = `${bookName}-${chapterNum}`;
+      
+      if (chapterImages[key]) {
+        // Use curated image
+        chapterImage.src = chapterImages[key];
+      } else {
+        // Create a custom gradient image with chapter info
+        const canvas = document.createElement('canvas');
+        canvas.width = 800;
+        canvas.height = 500;
+        const ctx = canvas.getContext('2d');
+        
+        // Create varied gradients based on book
+        const gradients = [
+          ['#667eea', '#764ba2'], // purple
+          ['#f093fb', '#f5576c'], // pink
+          ['#4facfe', '#00f2fe'], // blue
+          ['#43e97b', '#38f9d7'], // green
+          ['#fa709a', '#fee140'], // orange
+          ['#30cfd0', '#330867'], // teal
+          ['#a8edea', '#fed6e3'], // pastel
+          ['#ff9a56', '#ff6a88'], // warm
+        ];
+        
+        const hash = bookName.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+        const gradientPair = gradients[hash % gradients.length];
+        
+        const gradient = ctx.createLinearGradient(0, 0, 800, 500);
+        gradient.addColorStop(0, gradientPair[0]);
+        gradient.addColorStop(1, gradientPair[1]);
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 800, 500);
+        
+        // Add decorative elements
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+        ctx.beginPath();
+        ctx.arc(600, 100, 150, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(200, 400, 100, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Add text
+        ctx.fillStyle = 'white';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+        ctx.shadowBlur = 10;
+        ctx.font = 'bold 56px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(bookName, 400, 220);
+        ctx.font = '42px Arial';
+        ctx.fillText(`Chapter ${chapterNum}`, 400, 280);
+        
+        chapterImage.src = canvas.toDataURL();
+      }
+    }
+
+    buildSidebar();
+    renderBookmarks();
+  </script>
+</body>
+</html>
