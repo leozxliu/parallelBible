@@ -854,8 +854,18 @@
       updateBookmarkButton();
       updateNavigationButtons();
       
-      // Scroll to top of the page
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // On mobile view, scroll to the chapter content (main element)
+      // On desktop, scroll to top
+      if (window.innerWidth <= 900) {
+        // Mobile view - scroll to main content
+        const mainElement = document.querySelector('main');
+        if (mainElement) {
+          mainElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } else {
+        // Desktop view - scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
       
       // Display chapter title if available
       const chapterTitle = getChapterTitle(book.name, chapterNum);
