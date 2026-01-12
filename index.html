@@ -856,7 +856,10 @@
       
       // On mobile view, scroll to the chapter content (main element)
       // On desktop, scroll to top
-      if (window.innerWidth <= 900) {
+      // Detect mobile by checking if body is in column layout
+      const isMobile = window.getComputedStyle(document.body).flexDirection === 'column';
+      
+      if (isMobile) {
         // Mobile view - scroll to main content
         const mainElement = document.querySelector('main');
         if (mainElement) {
