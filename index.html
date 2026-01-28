@@ -40,6 +40,7 @@
       margin: 0 0 12px;
       font-size: 20px;
       letter-spacing: 0.5px;
+      color: #e2e8f0;
     }
     .section-title {
       margin: 14px 0 6px;
@@ -63,7 +64,7 @@
       transition: background 0.2s ease;
     }
     .book-header:hover { background: rgba(56, 189, 248, 0.08); }
-    .book-title { font-weight: 600; }
+    .book-title { font-weight: 600; color: #e2e8f0; }
     .chapter-list {
       display: none;
       padding: 10px 12px 12px;
@@ -82,7 +83,7 @@
       transition: all 0.15s ease;
       font-size: 13px;
     }
-    .chapter:hover { color: var(--text); border-color: var(--accent); }
+    .chapter:hover { color: #e2e8f0; border-color: var(--accent); }
     main {
       flex: 1;
       padding: 22px;
@@ -141,14 +142,14 @@
     .v-text {
       line-height: 1.65;
       padding: 0 12px;
-      background: var(--panel);
-      border: 1px solid var(--border);
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 8px;
       padding: 12px;
     }
     .col {
-      background: var(--panel);
-      border: 1px solid var(--border);
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 12px;
       padding: 16px;
       box-shadow: var(--shadow);
@@ -223,16 +224,40 @@
     }
     .bookmark-btn:hover {
       background: var(--accent);
-      color: var(--bg);
+      color: #0f172a;
     }
     .bookmark-btn.bookmarked {
       background: var(--accent);
-      color: var(--bg);
+      color: #0f172a;
     }
     .bookmarks-section {
       margin-top: 20px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
+    }
+    .color-controls {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .color-control {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .color-control label {
+      flex: 1;
+    }
+    .color-control input[type="color"] {
+      width: 50px;
+      height: 30px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      background: transparent;
     }
     .bookmark-item {
       padding: 10px;
@@ -253,7 +278,7 @@
     }
     .bookmark-title {
       font-size: 14px;
-      color: var(--text);
+      color: #e2e8f0;
       margin-bottom: 3px;
     }
     .bookmark-date {
@@ -288,7 +313,7 @@
     .nav-btn {
       padding: 12px 20px;
       background: var(--panel);
-      color: var(--text);
+      color: #e2e8f0;
       border: 1px solid var(--border);
       border-radius: 8px;
       cursor: pointer;
@@ -302,7 +327,7 @@
     }
     .nav-btn:hover:not(:disabled) {
       background: var(--accent);
-      color: var(--bg);
+      color: #0f172a;
       transform: translateY(-2px);
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
     }
@@ -353,6 +378,17 @@
 <body>
   <aside>
     <h1>Parallel Bible</h1>
+    <div class="color-controls">
+      <div class="section-title">Appearance</div>
+      <div class="color-control">
+        <label for="bg-color">Background</label>
+        <input type="color" id="bg-color" value="#0f172a">
+      </div>
+      <div class="color-control">
+        <label for="text-color">Text Color</label>
+        <input type="color" id="text-color" value="#e2e8f0">
+      </div>
+    </div>
     <div class="bookmarks-section">
       <div class="section-title">Bookmarks</div>
       <div id="bookmarks-list"></div>
@@ -414,6 +450,42 @@
   </div>
 
   <script>
+    // Color controls
+    function initColorControls() {
+      const bgColor = document.getElementById('bg-color');
+      const textColor = document.getElementById('text-color');
+      
+      // Load saved colors from localStorage
+      const savedBgColor = localStorage.getItem('bgColor');
+      const savedTextColor = localStorage.getItem('textColor');
+      
+      if (savedBgColor) {
+        bgColor.value = savedBgColor;
+        document.documentElement.style.setProperty('--bg', savedBgColor);
+      }
+      
+      if (savedTextColor) {
+        textColor.value = savedTextColor;
+        document.documentElement.style.setProperty('--text', savedTextColor);
+      }
+      
+      // Add event listeners
+      bgColor.addEventListener('input', (e) => {
+        const color = e.target.value;
+        document.documentElement.style.setProperty('--bg', color);
+        localStorage.setItem('bgColor', color);
+      });
+      
+      textColor.addEventListener('input', (e) => {
+        const color = e.target.value;
+        document.documentElement.style.setProperty('--text', color);
+        localStorage.setItem('textColor', color);
+      });
+    }
+    
+    // Initialize color controls on page load
+    initColorControls();
+    
     // Using bolls.life API (free, no authentication required)
     // CUV (Chinese Union Version) and NIV (New International Version)
     
