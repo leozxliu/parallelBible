@@ -3,7 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bible Parallel Viewer</title>
+  <title>Parallel Bible — 中英对照圣经 (CUV / NIV)</title>
+  <meta name="description" content="Read the Bible in Chinese (和合本 / CUV, 简体与繁体) and English (NIV) side by side, with a 靈修 devotion podcast for every chapter." />
+  <meta name="theme-color" content="#0f172a" />
+
+  <!-- Icons & installable web app -->
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="apple-touch-icon" href="./icon-180.png" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+
+  <!-- Social share preview (Open Graph + Twitter) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Parallel Bible — 中英对照圣经" />
+  <meta property="og:description" content="Read the Bible in Chinese (和合本) and English (NIV) side by side, with a 靈修 devotion podcast for every chapter." />
+  <meta property="og:image" content="https://images.pexels.com/photos/1557958/pexels-photo-1557958.jpeg?auto=compress&cs=tinysrgb&w=1200&h=630&fit=crop" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Parallel Bible — 中英对照圣经" />
+  <meta name="twitter:description" content="Read the Bible in Chinese (和合本) and English (NIV) side by side, with a 靈修 devotion podcast for every chapter." />
+  <meta name="twitter:image" content="https://images.pexels.com/photos/1557958/pexels-photo-1557958.jpeg?auto=compress&cs=tinysrgb&w=1200&h=630&fit=crop" />
   <style>
     :root {
       --bg: #0f172a;
@@ -505,7 +522,17 @@
     
     // Initialize color controls on page load
     initColorControls();
-    
+
+    // Register the service worker so the app shell loads offline and can be
+    // installed to the home screen. Only runs over http(s) (not file://).
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(err => {
+          console.warn('Service worker registration failed:', err);
+        });
+      });
+    }
+
     // Using bolls.life API (free, no authentication required)
     // CUV (Chinese Union Version) and NIV (New International Version)
     
@@ -860,24 +887,35 @@
     const chapterImage = document.getElementById("chapter-image");
     const imageCaption = document.getElementById("image-caption");
 
-    // Fetch chapter from bolls.life API (free, no authentication required)
+    // Fetch chapter from bolls.life API (free, no authentication required).
+    // The raw API response is cached in localStorage so re-reading a chapter is
+    // instant and works even if the API is slow or unavailable. We cache the RAW
+    // (traditional) text, not the converted text, so the 简体/繁体 toggle keeps
+    // working without another network request.
     async function fetchChapter(translation, bookNum, chapter) {
       try {
-        const url = `https://bolls.life/get-text/${translation}/${bookNum}/${chapter}/`;
-        console.log('Fetching:', url);
-        
-        const response = await fetch(url);
-        
-        if (!response.ok) {
-          throw new Error(`API request failed: ${response.status}`);
+        const cacheKey = `bolls_${translation}_${bookNum}_${chapter}`;
+        let data;
+
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+          data = JSON.parse(cached);
+        } else {
+          const url = `https://bolls.life/get-text/${translation}/${bookNum}/${chapter}/`;
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`API request failed: ${response.status}`);
+          }
+          data = await response.json();
+          // Store for next time; ignore quota errors (cache is best-effort).
+          try {
+            localStorage.setItem(cacheKey, JSON.stringify(data));
+          } catch (e) {
+            console.warn('Verse cache full; skipping cache for', cacheKey);
+          }
         }
-        
-        const data = await response.json();
-        console.log('API response:', data);
-        
+
         const verses = {};
-        
-        // Parse verses from bolls.life API response
         // Response is an array of verse objects: [{pk, verse, text}, ...]
         if (Array.isArray(data)) {
           data.forEach(verseObj => {
@@ -889,8 +927,6 @@
             verses[verseObj.verse] = text;
           });
         }
-        
-        console.log('Parsed verses:', verses);
         return verses;
       } catch (error) {
         console.error('Failed to fetch chapter:', error);
@@ -1046,10 +1082,13 @@
         sortedVerses.forEach(v => {
           const row = document.createElement("div");
           row.className = "verse-row";
+          // Tag each column with its language so screen readers and search
+          // engines handle the Chinese and English text correctly.
+          const zhLang = useSimplifiedChinese ? 'zh-Hans' : 'zh-Hant';
           row.innerHTML = `
             <div class="v-num">${chapterNum}:${v}</div>
-            <div class="v-text">${cuvVerses[v] || ""}</div>
-            <div class="v-text">${nivVerses[v] || ""}</div>
+            <div class="v-text" lang="${zhLang}">${cuvVerses[v] || ""}</div>
+            <div class="v-text" lang="en">${nivVerses[v] || ""}</div>
           `;
           versesContainer.appendChild(row);
         });
