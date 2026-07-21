@@ -1,10 +1,11 @@
 // Service worker for Parallel Bible.
 // Caches the app shell so the page loads offline, and caches verse/image
 // responses after they're first viewed online. Bump CACHE to invalidate.
-const CACHE = 'parallel-bible-v1';
+const CACHE = 'parallel-bible-v3';
 const SHELL = [
   './',
   './index.html',
+  './summaries.json',
   './manifest.webmanifest',
   './favicon.svg',
   './icon-192.png',
@@ -46,6 +47,15 @@ self.addEventListener('fetch', event => {
     event.respondWith(
       fetch(req).then(res => cachePut(req, res))
         .catch(() => caches.match(req).then(r => r || caches.match('./index.html')))
+    );
+    return;
+  }
+
+  // JSON data (summaries.json): network-first so content updates propagate,
+  // falling back to cache when offline.
+  if (url.origin === self.location.origin && url.pathname.endsWith('.json')) {
+    event.respondWith(
+      fetch(req).then(res => cachePut(req, res)).catch(() => caches.match(req))
     );
     return;
   }

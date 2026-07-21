@@ -1,0 +1,401 @@
+{
+  "books": {
+    "genesis": {
+      "author": { "en": "Traditionally attributed to Moses (c. 1446-1406 BC); some scholars see later editors compiling earlier sources.", "zh": "傳統上認為由摩西所寫（約主前1446-1406年）；部分學者則認為是後期編者整合早期資料而成。" },
+      "date": { "en": "c. 1440-1400 BC; events span from creation to roughly 1800 BC.", "zh": "約主前1440-1400年；記載的事件從創造直到約主前1800年。" },
+      "summary": { "en": "'Beginnings' — God creates the world and humanity, sin enters through the fall, and God launches His plan of redemption through a chosen family, moving from creation, flood, and Babel to the patriarchs Abraham, Isaac, Jacob, and Joseph.", "zh": "意為「起初」——神創造天地與人類，罪藉人的墮落進入世界，神藉一個蒙揀選的家族展開救贖計劃，由創造、洪水、巴別塔轉入亞伯拉罕、以撒、雅各與約瑟等列祖的生平。" },
+      "context": { "en": "Written for Israel as they became a nation after the Exodus, grounding their identity, their God, and their covenant promises in their ancestors' experiences.", "zh": "寫給出埃及後正建立為國的以色列民，藉列祖的經歷奠定他們的身分、所信的神，以及神所立的約與應許。" }
+    },
+    "exodus": {
+      "author": { "en": "Traditionally Moses.", "zh": "傳統上認為是摩西。" },
+      "date": { "en": "c. 1440-1400 BC.", "zh": "約主前1440-1400年。" },
+      "summary": { "en": "Israel is enslaved in Egypt; God raises up Moses, sends the plagues, parts the sea, and delivers His people, then gives the Law at Sinai and instructions for the tabernacle where He will dwell among them.", "zh": "以色列在埃及為奴；神興起摩西，降下災殃，分開紅海，拯救祂的百姓，並在西奈山頒賜律法，及建造神與人同住之會幕的指示。" },
+      "context": { "en": "The foundational story of Israel's redemption from slavery and their covenant with God as His chosen nation.", "zh": "以色列蒙救贖脫離為奴之地、並與神立約成為祂子民的根基性故事。" }
+    },
+    "leviticus": {
+      "author": { "en": "Traditionally Moses.", "zh": "傳統上認為是摩西。" },
+      "date": { "en": "c. 1440 BC.", "zh": "約主前1440年。" },
+      "summary": { "en": "A manual of holiness — laws for sacrifices, priesthood, purity, and feasts — teaching Israel how a holy God can be approached and how His people are to live set apart.", "zh": "一部聖潔的手冊——關於獻祭、祭司職分、潔淨與節期的律法，教導以色列如何親近聖潔的神，並如何分別為聖地生活。" },
+      "context": { "en": "Given at Sinai to a newly redeemed people learning to worship and live with God's presence in their midst.", "zh": "在西奈山頒賜給剛蒙救贖的百姓，教導他們在神同在中如何敬拜與生活。" }
+    },
+    "numbers": {
+      "author": { "en": "Traditionally Moses.", "zh": "傳統上認為是摩西。" },
+      "date": { "en": "c. 1440-1400 BC.", "zh": "約主前1440-1400年。" },
+      "summary": { "en": "Named for two censuses, it recounts Israel's forty years in the wilderness — their journeys, rebellions, and God's faithfulness — as one generation dies out and a new one prepares to enter the Promised Land.", "zh": "因兩次數點百姓而得名，記述以色列在曠野四十年的歷程——他們的行程、悖逆與神的信實——舊世代逐漸過去，新世代預備進入應許之地。" },
+      "context": { "en": "The transition generation between the Exodus and the conquest of Canaan.", "zh": "出埃及與征服迦南之間的過渡世代。" }
+    },
+    "deuteronomy": {
+      "author": { "en": "Traditionally Moses.", "zh": "傳統上認為是摩西。" },
+      "date": { "en": "c. 1406 BC.", "zh": "約主前1406年。" },
+      "summary": { "en": "Moses' farewell sermons on the plains of Moab, restating the Law and covenant for the new generation and calling them to love and obey God as they enter the land.", "zh": "摩西在摩押平原的臨別講論，向新世代重申律法與盟約，呼召他們在進入應許之地時愛神並遵行祂的話。" },
+      "context": { "en": "Delivered just before Israel crossed the Jordan; 'Deuteronomy' means 'second law.'", "zh": "在以色列過約旦河之前所傳講；「申命記」意為「第二次律法」。" }
+    },
+    "joshua": {
+      "author": { "en": "Traditionally Joshua, with later additions.", "zh": "傳統上為約書亞，並有後人補充。" },
+      "date": { "en": "c. 1400 BC.", "zh": "約主前1400年。" },
+      "summary": { "en": "Under Joshua, Israel crosses the Jordan, conquers Canaan, and divides the land among the tribes, as God fulfills His promises to give them the land.", "zh": "在約書亞帶領下，以色列過約旦河、征服迦南，並將土地分給各支派，神成就祂賜地的應許。" },
+      "context": { "en": "The occupation of the Promised Land, roughly 1400 BC.", "zh": "約主前1400年，以色列進佔應許之地。" }
+    },
+    "judges": {
+      "author": { "en": "Traditionally Samuel; the author is unnamed.", "zh": "傳統上認為是撒母耳；作者未具名。" },
+      "date": { "en": "c. 1050-1000 BC (events c. 1380-1050 BC).", "zh": "約主前1050-1000年（事件約主前1380-1050年）。" },
+      "summary": { "en": "A dark, repeating cycle — Israel sins, is oppressed, cries out, and God raises 'judges' like Deborah, Gideon, and Samson to deliver them; 'everyone did what was right in his own eyes.'", "zh": "一段黑暗而不斷重演的循環——以色列犯罪、受欺壓、呼求，神就興起如底波拉、基甸、參孫等「士師」拯救他們；「各人任意而行」。" },
+      "context": { "en": "The unstable era between Joshua and the monarchy.", "zh": "約書亞之後、王國建立之前的動盪時期。" }
+    },
+    "ruth": {
+      "author": { "en": "Traditionally Samuel; the author is unnamed.", "zh": "傳統上認為是撒母耳；作者未具名。" },
+      "date": { "en": "c. 1000 BC (events during the time of the judges).", "zh": "約主前1000年（事件發生於士師時代）。" },
+      "summary": { "en": "A Moabite widow's loyalty to her mother-in-law and her redemption by Boaz — a tender story of faithfulness and providence that leads into the royal line of David.", "zh": "一位摩押寡婦對婆婆的忠誠，以及波阿斯對她的救贖——一個關於信實與神眷顧的溫柔故事，並引出大衛的王室家譜。" },
+      "context": { "en": "Set during the judges; Ruth becomes King David's great-grandmother.", "zh": "背景設於士師時代；路得成為大衛王的曾祖母。" }
+    },
+    "1samuel": {
+      "author": { "en": "Samuel and others; compiled later.", "zh": "撒母耳及他人所記，後期彙編。" },
+      "date": { "en": "Events c. 1050-1010 BC; compiled later.", "zh": "事件約主前1050-1010年；後期成書。" },
+      "summary": { "en": "Israel's transition from judges to monarchy — the prophet Samuel anoints Saul as first king, then David — tracing Saul's decline and David's rise.", "zh": "以色列從士師制過渡到君王制——先知撒母耳膏立掃羅為首任君王，後又膏立大衛——記述掃羅的衰敗與大衛的興起。" },
+      "context": { "en": "The birth of Israel's monarchy.", "zh": "以色列王國的興起。" }
+    },
+    "2samuel": {
+      "author": { "en": "Compiled from court records and prophetic accounts.", "zh": "由宮廷記錄與先知資料彙編。" },
+      "date": { "en": "Events c. 1010-970 BC.", "zh": "事件約主前1010-970年。" },
+      "summary": { "en": "The reign of King David — his triumphs and covenant with God, and his failures (Bathsheba) with their painful consequences; David as the model king despite his sins.", "zh": "大衛王的統治——他的勝利、與神所立的約，以及他的失敗（拔示巴事件）與其痛苦後果；縱有過犯，大衛仍是理想君王的典範。" },
+      "context": { "en": "David's forty-year reign over a united Israel.", "zh": "大衛統治統一以色列四十年之久。" }
+    },
+    "1kings": {
+      "author": { "en": "Traditionally Jeremiah; the compiler is unnamed.", "zh": "傳統上認為是耶利米；編者未具名。" },
+      "date": { "en": "Events c. 970-850 BC.", "zh": "事件約主前970-850年。" },
+      "summary": { "en": "Solomon's glory and temple, then the kingdom's split into Israel (north) and Judah (south), and the decline into idolatry, with the prophet Elijah confronting King Ahab.", "zh": "所羅門的榮耀與建殿，繼而王國分裂為北國以色列與南國猶大，並漸漸墮入拜偶像，其間先知以利亞與亞哈王對抗。" },
+      "context": { "en": "From the united kingdom's peak to its division and spiritual decline.", "zh": "從統一王國的巔峰到分裂與屬靈的衰落。" }
+    },
+    "2kings": {
+      "author": { "en": "Traditionally Jeremiah; the compiler is unnamed.", "zh": "傳統上認為是耶利米；編者未具名。" },
+      "date": { "en": "Events up to 586 BC.", "zh": "事件至主前586年。" },
+      "summary": { "en": "The parallel decline of Israel and Judah, prophets like Elisha, and the final judgment — Israel falls to Assyria (722 BC) and Judah to Babylon (586 BC), ending in exile.", "zh": "以色列與猶大並行的衰落、如以利沙等先知，以及最終的審判——以色列亡於亞述（主前722年），猶大亡於巴比倫（主前586年），終致被擄。" },
+      "context": { "en": "Explains why God's people went into exile: persistent covenant unfaithfulness.", "zh": "解釋神的子民為何被擄：因長期背棄盟約。" }
+    },
+    "1chronicles": {
+      "author": { "en": "Traditionally Ezra.", "zh": "傳統上認為是以斯拉。" },
+      "date": { "en": "c. 430 BC.", "zh": "約主前430年。" },
+      "summary": { "en": "A retelling of Israel's history from Adam through David, emphasizing genealogies, temple worship, and God's covenant with David — written to encourage the returned exiles.", "zh": "從亞當到大衛重述以色列的歷史，著重家譜、聖殿敬拜與神跟大衛所立的約，寫來勉勵歸回的被擄之民。" },
+      "context": { "en": "Post-exile, reconnecting the restored community with its heritage.", "zh": "被擄歸回之後，使復興的群體與其屬靈根源重新連結。" }
+    },
+    "2chronicles": {
+      "author": { "en": "Traditionally Ezra.", "zh": "傳統上認為是以斯拉。" },
+      "date": { "en": "c. 430 BC.", "zh": "約主前430年。" },
+      "summary": { "en": "Continues from Solomon and the temple through the kings of Judah to the exile and Cyrus's decree to return, highlighting faithful worship and reform.", "zh": "從所羅門與聖殿、歷經猶大諸王，直到被擄與古列容百姓歸回的諭旨，強調忠心的敬拜與改革。" },
+      "context": { "en": "A priestly perspective on Judah's history for the restored community.", "zh": "為復興群體，從祭司角度回顧猶大的歷史。" }
+    },
+    "ezra": {
+      "author": { "en": "Traditionally Ezra.", "zh": "傳統上認為是以斯拉。" },
+      "date": { "en": "c. 440-430 BC.", "zh": "約主前440-430年。" },
+      "summary": { "en": "The return from Babylonian exile — rebuilding the temple and, under Ezra the scribe, restoring the people's obedience to God's Law.", "zh": "從巴比倫被擄之地歸回——重建聖殿，並在文士以斯拉帶領下，恢復百姓對神律法的順從。" },
+      "context": { "en": "The first waves of return under Persian rule, c. 538-458 BC.", "zh": "波斯統治下首批歸回的浪潮，約主前538-458年。" }
+    },
+    "nehemiah": {
+      "author": { "en": "Nehemiah (memoirs).", "zh": "尼希米（回憶錄）。" },
+      "date": { "en": "c. 430 BC.", "zh": "約主前430年。" },
+      "summary": { "en": "Nehemiah, cupbearer to the Persian king, leads the rebuilding of Jerusalem's walls against fierce opposition and joins Ezra in spiritual renewal.", "zh": "波斯王的酒政尼希米，在激烈的反對聲中帶領重建耶路撒冷的城牆，並與以斯拉一同推動屬靈的復興。" },
+      "context": { "en": "Rebuilding and reform in Jerusalem, c. 445 BC.", "zh": "約主前445年，耶路撒冷的重建與改革。" }
+    },
+    "esther": {
+      "author": { "en": "Unknown.", "zh": "作者不詳。" },
+      "date": { "en": "c. 460 BC.", "zh": "約主前460年。" },
+      "summary": { "en": "In Persia, a Jewish orphan becomes queen and, at great risk, saves her people from genocide — God's unseen providence protects His people even in exile (God is never named in the book).", "zh": "在波斯，一位猶太孤女成為王后，冒死拯救本族免遭滅絕——神隱而未現的眷顧，在被擄中仍保守祂的子民（全書未提「神」之名）。" },
+      "context": { "en": "Jews living under Persian rule; the origin of the festival of Purim.", "zh": "猶太人在波斯統治下的生活；普珥節的由來。" }
+    },
+    "job": {
+      "author": { "en": "Unknown; possibly the oldest book in the Bible.", "zh": "作者不詳；可能是聖經中最古老的一卷。" },
+      "date": { "en": "Unknown (perhaps the patriarchal era).", "zh": "年代不詳（或屬列祖時代）。" },
+      "summary": { "en": "A righteous man loses everything and wrestles with why the innocent suffer; through debate and God's answer from the whirlwind, he learns to trust God's wisdom beyond human understanding.", "zh": "一個義人失去一切，苦苦思索無辜者為何受苦；藉著辯論與神從旋風中的回答，他學會信靠超乎人所能測度的神的智慧。" },
+      "context": { "en": "A profound poetic exploration of suffering and God's sovereignty.", "zh": "對苦難與神主權深刻的詩體探討。" }
+    },
+    "psalms": {
+      "author": { "en": "David and others (Asaph, the sons of Korah, Moses, Solomon).", "zh": "大衛及他人（亞薩、可拉後裔、摩西、所羅門）。" },
+      "date": { "en": "c. 1400-500 BC.", "zh": "約主前1400-500年。" },
+      "summary": { "en": "Israel's songbook — 150 poems of praise, lament, thanksgiving, and trust that give voice to every human emotion before God.", "zh": "以色列的詩歌集——150篇讚美、哀歌、感恩與信靠的詩篇，在神面前道出人一切的情感。" },
+      "context": { "en": "Prayers and hymns used in Israel's worship across many centuries.", "zh": "以色列數百年間敬拜所用的禱告與詩歌。" }
+    },
+    "proverbs": {
+      "author": { "en": "Mainly Solomon, with other sages.", "zh": "主要為所羅門，並有其他智者。" },
+      "date": { "en": "c. 950-700 BC.", "zh": "約主前950-700年。" },
+      "summary": { "en": "Short, practical sayings on wise living — the fear of the Lord is the beginning of wisdom — applied to speech, work, money, relationships, and character.", "zh": "關於智慧生活的簡短實用箴言——敬畏耶和華是智慧的開端——應用於言語、工作、錢財、人際與品格。" },
+      "context": { "en": "Wisdom literature for training the young and guiding daily life.", "zh": "用以教導年輕人、引導日常生活的智慧文學。" }
+    },
+    "ecclesiastes": {
+      "author": { "en": "'The Preacher,' traditionally Solomon.", "zh": "「傳道者」，傳統上認為是所羅門。" },
+      "date": { "en": "c. 935 BC.", "zh": "約主前935年。" },
+      "summary": { "en": "A search for meaning 'under the sun' concludes that life apart from God is fleeting ('vanity'); true satisfaction is found in fearing God and enjoying His gifts.", "zh": "一場在「日光之下」尋求意義的探索，結論是離了神的人生虛空短暫（「虛空」）；真正的滿足在於敬畏神、享受祂所賜的。" },
+      "context": { "en": "Reflective wisdom on life's limits and true purpose.", "zh": "對人生限度與真正目的之省思智慧。" }
+    },
+    "songofsolomon": {
+      "author": { "en": "Traditionally Solomon.", "zh": "傳統上認為是所羅門。" },
+      "date": { "en": "c. 950 BC.", "zh": "約主前950年。" },
+      "summary": { "en": "A poetic celebration of love and marriage between a bride and groom; often also read as a picture of God's love for His people.", "zh": "一首歌頌新郎新婦之間愛情與婚姻的詩歌；亦常被解讀為神愛祂子民的寫照。" },
+      "context": { "en": "Hebrew love poetry affirming the goodness of marital love.", "zh": "希伯來情詩，肯定婚姻之愛的美善。" }
+    },
+    "isaiah": {
+      "author": { "en": "The prophet Isaiah.", "zh": "先知以賽亞。" },
+      "date": { "en": "c. 740-680 BC.", "zh": "約主前740-680年。" },
+      "summary": { "en": "Judgment on Judah and the nations gives way to glorious promises of salvation, the coming Messiah (the suffering Servant), and a new creation — earning Isaiah the title 'the gospel prophet.'", "zh": "對猶大與列國的審判，轉為榮耀的救恩應許、將臨的彌賽亞（受苦的僕人）與新造之天地——以賽亞因此被稱為「福音先知」。" },
+      "context": { "en": "Prophesied in Jerusalem as Assyria threatened, pointing far beyond to Christ.", "zh": "在亞述威脅下於耶路撒冷傳講，預指遠及基督。" }
+    },
+    "jeremiah": {
+      "author": { "en": "The prophet Jeremiah.", "zh": "先知耶利米。" },
+      "date": { "en": "c. 627-580 BC.", "zh": "約主前627-580年。" },
+      "summary": { "en": "The 'weeping prophet' warns Judah of coming Babylonian judgment for its sin, yet promises a future restoration and a 'new covenant' written on the heart.", "zh": "「流淚的先知」警告猶大因罪將遭巴比倫的審判，卻應許將來的復興與一個刻在人心版上的「新約」。" },
+      "context": { "en": "Ministered through Jerusalem's final decades before its fall in 586 BC.", "zh": "在耶路撒冷於主前586年傾覆前的最後數十年間事奉。" }
+    },
+    "lamentations": {
+      "author": { "en": "Traditionally Jeremiah.", "zh": "傳統上認為是耶利米。" },
+      "date": { "en": "c. 586 BC.", "zh": "約主前586年。" },
+      "summary": { "en": "Five funeral poems mourning the destruction of Jerusalem, honestly grieving yet clinging to hope in God's steadfast mercies that are 'new every morning.'", "zh": "五首哀悼耶路撒冷被毀的輓歌，坦誠哀傷，卻仍緊抓神堅定不移、「每早晨都是新的」慈愛之盼望。" },
+      "context": { "en": "Written amid the rubble just after Babylon destroyed Jerusalem.", "zh": "在巴比倫毀滅耶路撒冷後、廢墟之中寫成。" }
+    },
+    "ezekiel": {
+      "author": { "en": "The prophet Ezekiel, a priest.", "zh": "先知以西結，祭司出身。" },
+      "date": { "en": "c. 593-571 BC.", "zh": "約主前593-571年。" },
+      "summary": { "en": "A priest-prophet among the Babylonian exiles receives dramatic visions of God's glory, judgment, the valley of dry bones, and a restored temple — God will revive His people.", "zh": "一位在巴比倫被擄之民中的祭司先知，領受神榮耀、審判、枯骨平原與復興聖殿的異象——神必使祂的子民復活。" },
+      "context": { "en": "Ministered to the exiles in Babylon before and after Jerusalem's fall.", "zh": "在耶路撒冷傾覆前後，向巴比倫被擄之民事奉。" }
+    },
+    "daniel": {
+      "author": { "en": "The prophet Daniel.", "zh": "先知但以理。" },
+      "date": { "en": "c. 605-530 BC.", "zh": "約主前605-530年。" },
+      "summary": { "en": "A Jewish exile rises in Babylon's court, staying faithful under pressure (the lions' den), while prophetic visions reveal God's rule over history and coming kingdoms.", "zh": "一位被擄的猶太人在巴比倫朝中得升，在壓力下持守信仰（獅子坑），其預言異象揭示神掌管歷史與將臨的列國。" },
+      "context": { "en": "Faith and prophecy during the Babylonian and Persian empires.", "zh": "巴比倫與波斯帝國時期的信心與預言。" }
+    },
+    "hosea": {
+      "author": { "en": "The prophet Hosea.", "zh": "先知何西阿。" },
+      "date": { "en": "c. 750-715 BC.", "zh": "約主前750-715年。" },
+      "summary": { "en": "God tells Hosea to marry an unfaithful wife as a living picture of Israel's spiritual adultery — and of God's relentless, redeeming love that will not let His people go.", "zh": "神吩咐何西阿娶不貞的妻子，作為以色列屬靈淫亂的活生生寫照——也顯明神那不離不棄、救贖到底的愛。" },
+      "context": { "en": "To the northern kingdom before its fall to Assyria.", "zh": "向北國以色列傳講，時值其亡於亞述之前。" }
+    },
+    "joel": {
+      "author": { "en": "The prophet Joel.", "zh": "先知約珥。" },
+      "date": { "en": "Uncertain (perhaps c. 835-800 BC).", "zh": "年代不確定（或約主前835-800年）。" },
+      "summary": { "en": "A locust plague becomes a call to repentance and a warning of 'the day of the Lord,' with a promise that God will pour out His Spirit on all people.", "zh": "蝗災成為悔改的呼召，並警告「耶和華的日子」，同時應許神要將祂的靈澆灌凡有血氣的。" },
+      "context": { "en": "Peter later quotes Joel's Spirit promise at Pentecost.", "zh": "彼得後來在五旬節引用約珥所應許的聖靈澆灌。" }
+    },
+    "amos": {
+      "author": { "en": "Amos, a shepherd from Judah.", "zh": "阿摩司，來自猶大的牧人。" },
+      "date": { "en": "c. 760-750 BC.", "zh": "約主前760-750年。" },
+      "summary": { "en": "A herdsman called to prophesy, Amos denounces Israel's injustice and empty religion, calling for justice to 'roll on like a river.'", "zh": "一位蒙召說預言的牧人，阿摩司斥責以色列的不義與虛有其表的宗教，呼求公平「如大水滾滾」。" },
+      "context": { "en": "To prosperous but corrupt northern Israel before Assyria's conquest.", "zh": "向繁榮卻腐敗的北國以色列傳講，時在亞述征服之前。" }
+    },
+    "obadiah": {
+      "author": { "en": "The prophet Obadiah.", "zh": "先知俄巴底亞。" },
+      "date": { "en": "c. 586 BC.", "zh": "約主前586年。" },
+      "summary": { "en": "The shortest book in the Old Testament pronounces judgment on Edom for its pride and violence against Judah, affirming that God defends His people.", "zh": "舊約中最短的一卷，宣告神因以東的驕傲及其對猶大的暴行而施行審判，肯定神必為祂的子民伸冤。" },
+      "context": { "en": "Against Edom, which gloated over Jerusalem's fall.", "zh": "針對幸災樂禍、看猶大遭難的以東。" }
+    },
+    "jonah": {
+      "author": { "en": "Unknown; about the prophet Jonah.", "zh": "作者不詳；記述先知約拿。" },
+      "date": { "en": "Events c. 780-760 BC.", "zh": "事件約主前780-760年。" },
+      "summary": { "en": "A reluctant prophet flees God's call to preach to Nineveh, is swallowed by a great fish, and learns that God's mercy extends even to Israel's enemies.", "zh": "一位不情願的先知逃避神差他往尼尼微傳道的呼召，被大魚吞下，最終學到神的憐憫連以色列的仇敵也能臨及。" },
+      "context": { "en": "A prophet sent to Assyria's capital; a book about God's compassion for all.", "zh": "一位被差往亞述京城的先知；一卷論及神憐愛萬民的書。" }
+    },
+    "micah": {
+      "author": { "en": "The prophet Micah.", "zh": "先知彌迦。" },
+      "date": { "en": "c. 735-700 BC.", "zh": "約主前735-700年。" },
+      "summary": { "en": "Judgment on Israel and Judah for injustice mingled with hope — foretelling the Messiah's birth in Bethlehem and calling us to 'do justice, love mercy, and walk humbly with God.'", "zh": "對以色列與猶大因不義所施的審判，夾雜著盼望——預言彌賽亞將生於伯利恆，並呼召人「行公義、好憐憫、存謙卑的心與神同行」。" },
+      "context": { "en": "A rural prophet contemporary with Isaiah.", "zh": "一位與以賽亞同期的鄉間先知。" }
+    },
+    "nahum": {
+      "author": { "en": "The prophet Nahum.", "zh": "先知那鴻。" },
+      "date": { "en": "c. 660-630 BC.", "zh": "約主前660-630年。" },
+      "summary": { "en": "Announces the fall of Nineveh, declaring that God is just and will judge cruel, oppressive Assyria — a comfort for its victims.", "zh": "宣告尼尼微的傾覆，表明神是公義的，必審判殘暴壓迫的亞述——為受害者帶來安慰。" },
+      "context": { "en": "A sequel to Jonah a century later, when Nineveh had returned to violence.", "zh": "約拿之後約一世紀，尼尼微重蹈暴行時的續篇。" }
+    },
+    "habakkuk": {
+      "author": { "en": "The prophet Habakkuk.", "zh": "先知哈巴谷。" },
+      "date": { "en": "c. 610-600 BC.", "zh": "約主前610-600年。" },
+      "summary": { "en": "The prophet questions God about evil and injustice; God answers, and Habakkuk learns to trust — 'the righteous shall live by his faith.'", "zh": "先知就罪惡與不義質問神；神回答後，哈巴谷學會信靠——「義人必因信得生」。" },
+      "context": { "en": "On the eve of Babylon's invasion of Judah.", "zh": "在巴比倫入侵猶大的前夕。" }
+    },
+    "zephaniah": {
+      "author": { "en": "The prophet Zephaniah.", "zh": "先知西番雅。" },
+      "date": { "en": "c. 640-620 BC.", "zh": "約主前640-620年。" },
+      "summary": { "en": "Warns of 'the day of the Lord' against Judah and the nations, yet ends with a joyful promise of a purified, restored remnant in whom God delights.", "zh": "警告臨到猶大與列國的「耶和華的日子」，卻以喜樂的應許作結：神必喜悅一群被潔淨、蒙復興的餘民。" },
+      "context": { "en": "During King Josiah's reforms in Judah.", "zh": "猶大王約西亞推行改革的時期。" }
+    },
+    "haggai": {
+      "author": { "en": "The prophet Haggai.", "zh": "先知哈該。" },
+      "date": { "en": "520 BC.", "zh": "主前520年。" },
+      "summary": { "en": "Urges the returned exiles to stop neglecting God's house and finish rebuilding the temple, promising God's presence and blessing.", "zh": "催促歸回的被擄之民不要再耽延神的殿，完成重建聖殿，並應許神的同在與賜福。" },
+      "context": { "en": "To discouraged returnees whose temple had lain unfinished for years.", "zh": "向灰心的歸回者傳講，其聖殿多年停工未成。" }
+    },
+    "zechariah": {
+      "author": { "en": "The prophet Zechariah.", "zh": "先知撒迦利亞。" },
+      "date": { "en": "c. 520-480 BC.", "zh": "約主前520-480年。" },
+      "summary": { "en": "Encourages temple rebuilding through visions and rich messianic prophecies pointing to the coming King who enters on a donkey and is 'pierced.'", "zh": "藉異象激勵重建聖殿，並有豐富的彌賽亞預言，預指那將臨、騎驢進城、被「扎」的君王。" },
+      "context": { "en": "A contemporary of Haggai with a longer, more visionary message.", "zh": "與哈該同期，信息更長、更富異象色彩。" }
+    },
+    "malachi": {
+      "author": { "en": "The prophet Malachi.", "zh": "先知瑪拉基。" },
+      "date": { "en": "c. 430 BC.", "zh": "約主前430年。" },
+      "summary": { "en": "The last Old Testament prophet rebukes a spiritually complacent people for empty worship and broken faithfulness, and promises the coming messenger before the Lord — closing the OT in expectation of Messiah.", "zh": "舊約最後一位先知，責備屬靈麻木的百姓虛假的敬拜與失信，並應許那在主之前來的使者——舊約在期待彌賽亞中結束。" },
+      "context": { "en": "Post-exilic Judah, some four centuries before Christ.", "zh": "被擄歸回後的猶大，約在基督之前四百年。" }
+    },
+    "matthew": {
+      "author": { "en": "Matthew (Levi), the tax collector and apostle.", "zh": "使徒馬太（利未），稅吏出身。" },
+      "date": { "en": "c. AD 60-70.", "zh": "約主後60-70年。" },
+      "summary": { "en": "Presents Jesus as the promised Jewish Messiah and King, fulfilling Old Testament prophecy, with major teaching blocks like the Sermon on the Mount.", "zh": "將耶穌呈現為應許中的猶太彌賽亞與君王，應驗舊約預言，並收錄如登山寶訓等重要教導。" },
+      "context": { "en": "Written especially for a Jewish audience.", "zh": "特別為猶太讀者而寫。" }
+    },
+    "mark": {
+      "author": { "en": "John Mark, an associate of Peter.", "zh": "馬可（約翰·馬可），彼得的同工。" },
+      "date": { "en": "c. AD 55-65.", "zh": "約主後55-65年。" },
+      "summary": { "en": "The shortest, fastest-paced Gospel, portraying Jesus as the suffering Servant who acts with power; likely based on Peter's testimony.", "zh": "篇幅最短、節奏最快的福音書，將耶穌描繪為大有能力、受苦的僕人；很可能取材於彼得的見證。" },
+      "context": { "en": "Written for a Roman and Gentile audience.", "zh": "為羅馬人與外邦讀者而寫。" }
+    },
+    "luke": {
+      "author": { "en": "Luke, the physician and companion of Paul.", "zh": "路加，醫生，保羅的同伴。" },
+      "date": { "en": "c. AD 60-62.", "zh": "約主後60-62年。" },
+      "summary": { "en": "A careful, orderly account presenting Jesus as the compassionate Savior of all people — rich and poor, Jew and Gentile, men and women.", "zh": "一份仔細而有條理的記述，將耶穌呈現為滿有憐憫、拯救萬人的救主——無論貧富、猶太人或外邦人、男或女。" },
+      "context": { "en": "Volume one of a two-part work (with Acts) written for Theophilus.", "zh": "為提阿非羅所寫兩部作品（與使徒行傳）的上卷。" }
+    },
+    "john": {
+      "author": { "en": "The apostle John.", "zh": "使徒約翰。" },
+      "date": { "en": "c. AD 85-95.", "zh": "約主後85-95年。" },
+      "summary": { "en": "A theological Gospel presenting Jesus as the eternal Son of God, built around seven 'I am' sayings and signs, written 'that you may believe.'", "zh": "一卷神學性的福音書，將耶穌呈現為永恆的神子，圍繞七個「我是」的宣告與神蹟，寫來「叫你們信」。" },
+      "context": { "en": "The most distinct Gospel, emphasizing Jesus' deity and eternal life.", "zh": "最具特色的福音書，強調耶穌的神性與永生。" }
+    },
+    "acts": {
+      "author": { "en": "Luke.", "zh": "路加。" },
+      "date": { "en": "c. AD 62.", "zh": "約主後62年。" },
+      "summary": { "en": "The birth and explosive growth of the early church — from Pentecost and the coming of the Spirit, through the missions of Peter and Paul, spreading the gospel from Jerusalem to Rome.", "zh": "初代教會的誕生與蓬勃增長——從五旬節聖靈降臨，經彼得與保羅的宣教，將福音從耶路撒冷傳到羅馬。" },
+      "context": { "en": "The sequel to Luke, chronicling the church's first three decades.", "zh": "路加福音的續篇，記述教會最初三十年的歷史。" }
+    },
+    "romans": {
+      "author": { "en": "The apostle Paul.", "zh": "使徒保羅。" },
+      "date": { "en": "c. AD 57.", "zh": "約主後57年。" },
+      "summary": { "en": "Paul's fullest explanation of the gospel — all have sinned, but are justified by grace through faith in Christ — and how it transforms life for Jew and Gentile alike.", "zh": "保羅對福音最完整的闡釋——世人都犯了罪，卻因信基督、藉恩典得稱為義——並說明這如何改變猶太人與外邦人的生命。" },
+      "context": { "en": "Written to the church in Rome, which Paul had not yet visited.", "zh": "寫給他尚未到訪的羅馬教會。" }
+    },
+    "1corinthians": {
+      "author": { "en": "The apostle Paul.", "zh": "使徒保羅。" },
+      "date": { "en": "c. AD 55.", "zh": "約主後55年。" },
+      "summary": { "en": "Paul addresses divisions, immorality, lawsuits, worship, and spiritual gifts in a troubled church, with the great chapters on love (13) and the resurrection (15).", "zh": "保羅處理一間問題重重之教會的紛爭、淫亂、訴訟、敬拜與屬靈恩賜，並有論愛（13章）與復活（15章）的偉大篇章。" },
+      "context": { "en": "To a gifted but divided and worldly church in Corinth.", "zh": "寫給哥林多一間有恩賜卻分裂、屬世的教會。" }
+    },
+    "2corinthians": {
+      "author": { "en": "The apostle Paul.", "zh": "使徒保羅。" },
+      "date": { "en": "c. AD 56.", "zh": "約主後56年。" },
+      "summary": { "en": "Paul's most personal letter, defending his apostleship and boasting only in weakness through which Christ's power is shown, and urging generous giving.", "zh": "保羅最個人化的書信，為自己的使徒職分辯護，只誇自己的軟弱，好使基督的能力得以顯明，並勸勉慷慨的奉獻。" },
+      "context": { "en": "Written amid conflict with critics in the Corinthian church.", "zh": "在與哥林多教會批評者的衝突中寫成。" }
+    },
+    "galatians": {
+      "author": { "en": "The apostle Paul.", "zh": "使徒保羅。" },
+      "date": { "en": "c. AD 48-55.", "zh": "約主後48-55年。" },
+      "summary": { "en": "A fierce defense of the gospel of grace — we are justified by faith in Christ, not by works of the Law — and of the freedom and Spirit-led life it brings.", "zh": "對恩典福音的激烈捍衛——我們因信基督稱義，而非靠遵行律法——並論及由此而來的自由與順從聖靈的生活。" },
+      "context": { "en": "To churches tempted to add law-keeping to faith in Christ.", "zh": "寫給那些受試探、想在信靠基督之外加上守律法的教會。" }
+    },
+    "ephesians": {
+      "author": { "en": "The apostle Paul.", "zh": "使徒保羅。" },
+      "date": { "en": "c. AD 60-62.", "zh": "約主後60-62年。" },
+      "summary": { "en": "God's grand plan to unite all things in Christ and form one new people (the church), followed by how to live worthy of that calling.", "zh": "神那使萬有在基督裡合一、並建立一個新群體（教會）的宏大計劃，繼而論及如何行事為人與此呼召相稱。" },
+      "context": { "en": "A circular letter on the church's identity and unity.", "zh": "一封論及教會身分與合一的通函。" }
+    },
+    "philippians": {
+      "author": { "en": "The apostle Paul.", "zh": "使徒保羅。" },
+      "date": { "en": "c. AD 61.", "zh": "約主後61年。" },
+      "summary": { "en": "A joyful thank-you letter written from prison, urging joy, humility (Christ's example), and contentment in every circumstance.", "zh": "一封在獄中寫成、滿有喜樂的感謝信，勸勉人喜樂、謙卑（以基督為榜樣），並在任何境遇中知足。" },
+      "context": { "en": "To the beloved church at Philippi that supported Paul.", "zh": "寫給那支持保羅、他所摯愛的腓立比教會。" }
+    },
+    "colossians": {
+      "author": { "en": "The apostle Paul.", "zh": "使徒保羅。" },
+      "date": { "en": "c. AD 60-62.", "zh": "約主後60-62年。" },
+      "summary": { "en": "Exalts the supremacy and all-sufficiency of Christ against false teaching, and calls believers to root their whole lives in Him.", "zh": "高舉基督的至高與全備，駁斥異端邪說，呼召信徒將整個生命扎根於祂。" },
+      "context": { "en": "To counter a heresy diminishing Christ at Colossae.", "zh": "針對歌羅西一種貶低基督的異端而寫。" }
+    },
+    "1thessalonians": {
+      "author": { "en": "The apostle Paul.", "zh": "使徒保羅。" },
+      "date": { "en": "c. AD 51.", "zh": "約主後51年。" },
+      "summary": { "en": "Encourages a young church to stand firm under persecution, live holy lives, and take comfort in the certain return of Christ.", "zh": "勉勵一間年輕的教會在逼迫中站立得穩、過聖潔的生活，並因基督必然的再來得著安慰。" },
+      "context": { "en": "One of Paul's earliest letters, to new believers.", "zh": "保羅最早的書信之一，寫給初信者。" }
+    },
+    "2thessalonians": {
+      "author": { "en": "The apostle Paul.", "zh": "使徒保羅。" },
+      "date": { "en": "c. AD 51-52.", "zh": "約主後51-52年。" },
+      "summary": { "en": "Corrects confusion about Christ's return, urging steadfastness and warning against idleness while waiting.", "zh": "糾正對基督再來的誤解，勸勉人堅忍，並警戒等候期間游手好閒。" },
+      "context": { "en": "A follow-up clarifying end-times misunderstandings.", "zh": "一封澄清末世誤解的後續書信。" }
+    },
+    "1timothy": {
+      "author": { "en": "The apostle Paul.", "zh": "使徒保羅。" },
+      "date": { "en": "c. AD 62-64.", "zh": "約主後62-64年。" },
+      "summary": { "en": "Pastoral guidance to Timothy on sound doctrine, church order, leadership qualifications, and godly living.", "zh": "給提摩太的牧養指引，論及純正的教義、教會秩序、領袖的資格與敬虔的生活。" },
+      "context": { "en": "A mentor's instructions to a young pastor at Ephesus.", "zh": "一位屬靈導師給以弗所年輕牧者的教導。" }
+    },
+    "2timothy": {
+      "author": { "en": "The apostle Paul.", "zh": "使徒保羅。" },
+      "date": { "en": "c. AD 64-67.", "zh": "約主後64-67年。" },
+      "summary": { "en": "Paul's final letter before martyrdom, urging Timothy to guard the gospel, endure hardship, and 'preach the word' — 'I have fought the good fight.'", "zh": "保羅殉道前最後的書信，勉勵提摩太持守福音、忍受苦難、「務要傳道」——「那美好的仗我已經打過了」。" },
+      "context": { "en": "Written from a Roman prison near the end of Paul's life.", "zh": "在保羅生命將盡時，於羅馬監獄中寫成。" }
+    },
+    "titus": {
+      "author": { "en": "The apostle Paul.", "zh": "使徒保羅。" },
+      "date": { "en": "c. AD 62-64.", "zh": "約主後62-64年。" },
+      "summary": { "en": "Instructions to Titus on appointing elders and teaching sound doctrine that produces good works on the island of Crete.", "zh": "給提多的教導，論及在克里特島設立長老、並教導能結出好行為的純正教義。" },
+      "context": { "en": "Organizing and strengthening young churches in Crete.", "zh": "為要在克里特建立並堅固年輕的教會。" }
+    },
+    "philemon": {
+      "author": { "en": "The apostle Paul.", "zh": "使徒保羅。" },
+      "date": { "en": "c. AD 60-62.", "zh": "約主後60-62年。" },
+      "summary": { "en": "A short, personal appeal asking Philemon to receive back his runaway slave Onesimus as a beloved brother in Christ — the gospel reshaping human relationships.", "zh": "一封簡短而私人的懇求，請求腓利門以基督裡親愛的弟兄，接納他逃走的奴僕阿尼西母——福音重塑人際關係。" },
+      "context": { "en": "A model of forgiveness and reconciliation.", "zh": "一個饒恕與復和的典範。" }
+    },
+    "hebrews": {
+      "author": { "en": "Unknown (not named in the text).", "zh": "作者不詳（經文並未載明）。" },
+      "date": { "en": "c. AD 60-70.", "zh": "約主後60-70年。" },
+      "summary": { "en": "Shows Christ as superior to angels, Moses, and the old sacrificial system — the perfect and final High Priest — urging weary believers not to fall away but to persevere in faith.", "zh": "顯明基督超越天使、摩西與舊有的獻祭制度——是那完全而末後的大祭司——勸勉疲乏的信徒不要離棄真道，要憑信心堅忍到底。" },
+      "context": { "en": "To Jewish Christians tempted to return to Judaism under pressure.", "zh": "寫給那些在壓力下受試探、想回到猶太教的猶太基督徒。" }
+    },
+    "james": {
+      "author": { "en": "James, the brother of Jesus.", "zh": "雅各，耶穌的兄弟。" },
+      "date": { "en": "c. AD 45-49.", "zh": "約主後45-49年。" },
+      "summary": { "en": "Practical wisdom on living out genuine faith — 'faith without works is dead' — addressing the tongue, favoritism, trials, and true religion.", "zh": "論及活出真實信心的實用智慧——「信心沒有行為是死的」——談及舌頭、偏心、試煉與真正的敬虔。" },
+      "context": { "en": "An early letter to scattered Jewish Christians.", "zh": "一封寫給分散各地之猶太基督徒的早期書信。" }
+    },
+    "1peter": {
+      "author": { "en": "The apostle Peter.", "zh": "使徒彼得。" },
+      "date": { "en": "c. AD 62-64.", "zh": "約主後62-64年。" },
+      "summary": { "en": "Encourages suffering Christians to stand firm in hope, live holy lives, and follow Christ's example under persecution.", "zh": "勉勵受苦的基督徒在盼望中站立得穩、過聖潔的生活，並在逼迫中效法基督的榜樣。" },
+      "context": { "en": "To believers facing hostility across Asia Minor.", "zh": "寫給小亞細亞各地面對敵意的信徒。" }
+    },
+    "2peter": {
+      "author": { "en": "The apostle Peter.", "zh": "使徒彼得。" },
+      "date": { "en": "c. AD 64-67.", "zh": "約主後64-67年。" },
+      "summary": { "en": "Warns against false teachers and scoffers, urging believers to grow in true knowledge and hold to the certainty of Christ's return.", "zh": "警戒假師傅與好譏誚的人，勉勵信徒在真知識上長進，並持守基督必再來的確據。" },
+      "context": { "en": "A final warning near the end of Peter's life.", "zh": "彼得生命將盡時的最後警告。" }
+    },
+    "1john": {
+      "author": { "en": "The apostle John.", "zh": "使徒約翰。" },
+      "date": { "en": "c. AD 85-95.", "zh": "約主後85-95年。" },
+      "summary": { "en": "Assures believers of eternal life and tests true faith by love, obedience, and sound belief — 'God is love.'", "zh": "使信徒確知永生，並以愛心、順從與純正信仰試驗真實的信心——「神就是愛」。" },
+      "context": { "en": "Against early false teaching that denied Christ's true humanity.", "zh": "針對早期否認基督真實人性的異端。" }
+    },
+    "2john": {
+      "author": { "en": "The apostle John ('the elder').", "zh": "使徒約翰（「長老」）。" },
+      "date": { "en": "c. AD 85-95.", "zh": "約主後85-95年。" },
+      "summary": { "en": "A brief note urging believers to walk in love and truth and to beware of deceivers.", "zh": "一封簡短的信，勉勵信徒按愛心與真理而行，並防備迷惑人的。" },
+      "context": { "en": "A personal letter about hospitality and false teachers.", "zh": "一封關於接待與假師傅的私人書信。" }
+    },
+    "3john": {
+      "author": { "en": "The apostle John ('the elder').", "zh": "使徒約翰（「長老」）。" },
+      "date": { "en": "c. AD 85-95.", "zh": "約主後85-95年。" },
+      "summary": { "en": "Commends Gaius for his hospitality to traveling missionaries and rebukes the proud Diotrephes.", "zh": "稱讚該猶接待四處奔波的宣教士，並責備驕傲的丟特腓。" },
+      "context": { "en": "A personal letter on supporting gospel workers.", "zh": "一封關於支持福音工人的私人書信。" }
+    },
+    "jude": {
+      "author": { "en": "Jude, the brother of James (and of Jesus).", "zh": "猶大，雅各（與耶穌）的兄弟。" },
+      "date": { "en": "c. AD 65-80.", "zh": "約主後65-80年。" },
+      "summary": { "en": "Urgently calls believers to 'contend for the faith' against false teachers who twist grace into a license to sin.", "zh": "迫切呼召信徒為真道「竭力爭辯」，抵擋那將恩典曲解為放縱的假師傅。" },
+      "context": { "en": "A short, sharp warning much like 2 Peter.", "zh": "一封簡短犀利的警告，與彼得後書相近。" }
+    },
+    "revelation": {
+      "author": { "en": "The apostle John.", "zh": "使徒約翰。" },
+      "date": { "en": "c. AD 95.", "zh": "約主後95年。" },
+      "summary": { "en": "Apocalyptic visions given to John on Patmos, unveiling Christ's victory over evil, God's judgment, and the final triumph — a new heaven and new earth where God dwells with His people.", "zh": "約翰在拔摩海島所得的啟示異象，揭示基督勝過邪惡、神的審判與最終的得勝——新天新地，神與祂的子民同住。" },
+      "context": { "en": "Written to encourage persecuted churches with the hope of Christ's return.", "zh": "寫來以基督再來的盼望激勵受逼迫的眾教會。" }
+    }
+  },
+  "chapters": {}
+}
