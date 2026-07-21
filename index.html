@@ -171,6 +171,16 @@
     }
     .bi-en { font-size: 14px; line-height: 1.55; color: var(--text); }
     .bi-zh { font-size: 14px; line-height: 1.7; color: var(--muted); margin-top: 3px; }
+    .bi-note {
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px dashed #263041;
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--muted);
+      opacity: 0.8;
+    }
+    .bi-note [lang="en"] { margin-bottom: 2px; }
     .grid {
       display: flex;
       flex-direction: column;
@@ -1089,12 +1099,18 @@
         ['summary', 'Summary', '概要'],
         ['context', 'Context', '背景']
       ];
+      const noteEn = 'These overviews are AI-generated (Claude) for quick context — please weigh them against Scripture.';
+      const noteZh = '本卷簡介由 AI（Claude）生成，僅供快速參考，不能取代聖經與正式註釋。';
       body.innerHTML = labels.map(([key, en, zhLabel]) => `
         <div class="bi-field">
           <div class="bi-label">${en} · ${zh(zhLabel)}</div>
           <div class="bi-en" lang="en">${info[key].en}</div>
           <div class="bi-zh" lang="${zhLang}">${zh(info[key].zh)}</div>
-        </div>`).join('');
+        </div>`).join('') + `
+        <div class="bi-note">
+          <div lang="en">ℹ️ ${noteEn}</div>
+          <div lang="${zhLang}">${zh(noteZh)}</div>
+        </div>`;
 
       // Card title shows the current book; body respects the collapsed/expanded state.
       document.getElementById('book-info-title').textContent =
