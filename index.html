@@ -59,6 +59,45 @@
       letter-spacing: 0.5px;
       color: #e2e8f0;
     }
+    .search-box { position: relative; margin-bottom: 16px; }
+    #book-search {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 9px 12px;
+      background: #0b1220;
+      border: 1px solid #1f2937;
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+    }
+    #book-search:focus { border-color: var(--accent); }
+    #book-search::placeholder { color: var(--muted); }
+    .search-results {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(100% + 4px);
+      z-index: 20;
+      background: #0b1220;
+      border: 1px solid #1f2937;
+      border-radius: 8px;
+      max-height: 320px;
+      overflow-y: auto;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+    .search-result {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    .search-result:hover, .search-result.active { background: rgba(99, 102, 241, 0.18); }
+    .sr-cn { color: var(--text); font-size: 14px; }
+    .sr-en { color: var(--muted); font-size: 13px; }
+    .sr-ch { margin-left: auto; color: var(--accent); font-size: 12px; font-weight: 600; white-space: nowrap; }
+    .search-empty { padding: 8px 12px; color: var(--muted); font-size: 13px; }
     .section-title {
       margin: 14px 0 6px;
       color: var(--muted);
@@ -460,6 +499,14 @@
 <body>
   <aside>
     <h1>Parallel Bible</h1>
+    <div class="search-box">
+      <input type="text" id="book-search" autocomplete="off" spellcheck="false"
+        placeholder="🔍 Jump to book &amp; chapter · 搜索书卷…"
+        oninput="handleBookSearch(this.value)"
+        onkeydown="handleBookSearchKey(event)"
+        onblur="setTimeout(hideBookSearch, 150)">
+      <div id="search-results" class="search-results" style="display: none;"></div>
+    </div>
     <div class="color-controls">
       <div class="section-title">Appearance</div>
       <div class="color-control">
@@ -595,6 +642,93 @@
       }
     }
     loadBookSummaries();
+
+    // ---- Quick search: jump to a book (and optional chapter) ----
+    // Matches English name, book id, or Chinese name (简体/繁体 both work), and
+    // parses a trailing chapter number, e.g. "john 3", "创世记 1", "1 cor 13".
+    let searchResults = [];
+    let searchActiveIndex = 0;
+
+    function handleBookSearch(value) {
+      const raw = (value || '').trim();
+      const box = document.getElementById('search-results');
+      if (!raw) { searchResults = []; box.style.display = 'none'; box.innerHTML = ''; return; }
+
+      // Split off a trailing chapter number when a book name precedes it.
+      let bookQuery = raw, chapter = null;
+      const m = raw.match(/^(.+?)\s*(\d+)\s*$/);
+      if (m && /[a-z一-鿿]/i.test(m[1])) {
+        bookQuery = m[1].trim();
+        chapter = parseInt(m[2], 10);
+      }
+      const qn = bookQuery.toLowerCase().replace(/\s+/g, '');
+      const zhq = toSimplified(bookQuery);
+
+      const scored = [];
+      for (const book of bibleData.books) {
+        const en = book.name.toLowerCase().replace(/\s+/g, '');
+        const cn = book.cname; // stored simplified
+        let score = null;
+        if (en.startsWith(qn) || book.id.startsWith(qn)) score = 0;
+        else if (cn.startsWith(zhq)) score = 1;
+        else if (en.includes(qn) || book.id.includes(qn)) score = 2;
+        else if (cn.includes(zhq)) score = 3;
+        if (score !== null) scored.push({ book, score, chapter });
+      }
+      scored.sort((a, b) => a.score - b.score || a.book.bookNum - b.book.bookNum);
+      searchResults = scored.slice(0, 8);
+      searchActiveIndex = 0;
+      renderSearchResults();
+    }
+
+    function renderSearchResults() {
+      const box = document.getElementById('search-results');
+      if (!searchResults.length) {
+        box.innerHTML = '<div class="search-empty">No matches · 无匹配</div>';
+        box.style.display = 'block';
+        return;
+      }
+      box.innerHTML = searchResults.map((r, i) => {
+        const ch = r.chapter ? Math.min(Math.max(r.chapter, 1), r.book.chapters) : null;
+        const chLabel = ch ? `<span class="sr-ch">ch. ${ch}</span>` : '';
+        return `<div class="search-result${i === searchActiveIndex ? ' active' : ''}" onmousedown="selectBookResult(${i})">
+          <span class="sr-cn">${r.book.cname}</span><span class="sr-en">${r.book.name}</span>${chLabel}
+        </div>`;
+      }).join('');
+      box.style.display = 'block';
+    }
+
+    function selectBookResult(i) {
+      const r = searchResults[i];
+      if (!r) return;
+      const ch = r.chapter ? Math.min(Math.max(r.chapter, 1), r.book.chapters) : 1;
+      document.getElementById('book-search').value = '';
+      hideBookSearch();
+      loadChapter(r.book, ch);
+    }
+
+    function hideBookSearch() {
+      searchResults = [];
+      const box = document.getElementById('search-results');
+      if (box) box.style.display = 'none';
+    }
+
+    function handleBookSearchKey(e) {
+      if (e.key === 'Escape') { e.target.value = ''; hideBookSearch(); return; }
+      if (!searchResults.length) return;
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        searchActiveIndex = Math.min(searchActiveIndex + 1, searchResults.length - 1);
+        renderSearchResults();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        searchActiveIndex = Math.max(searchActiveIndex - 1, 0);
+        renderSearchResults();
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        selectBookResult(searchActiveIndex);
+      }
+    }
 
     // Register the service worker so the app shell loads offline and can be
     // installed to the home screen. Only runs over http(s) (not file://).
