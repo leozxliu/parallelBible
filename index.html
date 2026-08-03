@@ -539,6 +539,10 @@
           <span id="bookmark-icon">☆</span>
           <span id="bookmark-text">Bookmark</span>
         </button>
+        <button class="bookmark-btn" id="share-btn" onclick="shareChapter()" style="display: none;">
+          <span id="share-icon">🔗</span>
+          <span id="share-text">Share</span>
+        </button>
       </div>
       <div class="subtitle" id="subheading"></div>
       <a id="devotion-link" class="devotion-link" href="#" target="_blank" rel="noopener noreferrer" style="display: none;" onclick="return openDevotionSideBySide(this.href);">
@@ -1277,6 +1281,64 @@
       }
     }
 
+    // ---- Shareable deep links (#/<bookId>/<chapter>) ----
+    function getChapterUrl(book, chapterNum) {
+      return location.origin + location.pathname + '#/' + book.id + '/' + chapterNum;
+    }
+
+    // Reflect the current chapter in the address bar (no history spam) and reveal Share.
+    function updateShareUrl(book, chapterNum) {
+      const hash = '#/' + book.id + '/' + chapterNum;
+      if (location.hash !== hash) history.replaceState(null, '', hash);
+      const btn = document.getElementById('share-btn');
+      if (btn) btn.style.display = 'inline-flex';
+    }
+
+    async function shareChapter() {
+      if (!currentBook || !currentChapter) return;
+      const url = getChapterUrl(currentBook, currentChapter);
+      const title = `Parallel Bible — ${currentBook.name} ${currentChapter} · ${currentBook.cname}`;
+      // Native share sheet where available (mostly mobile).
+      if (navigator.share) {
+        try { await navigator.share({ title, url }); return; }
+        catch (e) { if (e && e.name === 'AbortError') return; /* else fall through to copy */ }
+      }
+      try {
+        await navigator.clipboard.writeText(url);
+        flashShareFeedback('Copied! · 已复制');
+      } catch (e) {
+        window.prompt('Copy this link:', url); // last-resort fallback
+      }
+    }
+
+    function flashShareFeedback(msg) {
+      const textEl = document.getElementById('share-text');
+      const iconEl = document.getElementById('share-icon');
+      if (!textEl) return;
+      textEl.textContent = msg;
+      iconEl.textContent = '✓';
+      setTimeout(() => { textEl.textContent = 'Share'; iconEl.textContent = '🔗'; }, 1600);
+    }
+
+    // Open a chapter from a #/<bookId>/<chapter> link. Returns true if handled.
+    function loadChapterFromHash() {
+      const m = (location.hash || '').match(/^#\/([a-z0-9]+)\/(\d+)$/i);
+      if (!m) return false;
+      const book = bibleData.books.find(b => b.id === m[1].toLowerCase());
+      if (!book) return false;
+      const ch = Math.min(Math.max(parseInt(m[2], 10), 1), book.chapters);
+      loadChapter(book, ch);
+      return true;
+    }
+
+    // Respond to manual URL edits or back/forward to a different chapter.
+    window.addEventListener('hashchange', () => {
+      const m = (location.hash || '').match(/^#\/([a-z0-9]+)\/(\d+)$/i);
+      if (!m) return;
+      if (currentBook && currentBook.id === m[1].toLowerCase() && String(currentChapter) === m[2]) return;
+      loadChapterFromHash();
+    });
+
     async function loadChapter(book, chapterNum) {
       currentBook = book;
       currentChapter = chapterNum;
@@ -1285,6 +1347,7 @@
       updateNavigationButtons();
       updateDevotionLink(book, chapterNum);
       updateBookInfo(book);
+      updateShareUrl(book, chapterNum);
       
       // On mobile view, scroll to the chapter content (main element)
       // On desktop, scroll to top
@@ -1496,6 +1559,7 @@
 
     buildSidebar();
     renderBookmarks();
+    loadChapterFromHash(); // open directly to a shared #/<book>/<chapter> link
   </script>
 </body>
 </html>
